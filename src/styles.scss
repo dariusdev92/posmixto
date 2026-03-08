@@ -1,24 +1,59 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+    height: 100%;
+    @include mat.theme((color: (primary: mat.$cyan-palette,
+                tertiary: mat.$orange-palette,
+            ),
+            typography: Roboto,
+            density: 0,
+        ));
+}
+
+body {
+    // Default the application to a light color theme. This can be changed to
+    // `dark` to enable the dark color theme, or to `light dark` to defer to the
+    // user's system settings.
+    color-scheme: dark;
+
+    // Set a default background, font and text colors for the application using
+    // Angular Material's system-level CSS variables. Learn more about these
+    // variables at https://material.angular.dev/guide/system-variables
+    background-color: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
+    font: var(--mat-sys-body-medium);
+
+    // Reset the user agent margin.
+    margin: 0;
+    height: 100%;
+}
+
 /* You can add global styles to this file, and also import other style files */
 
 :root {
-    /* Dark Theme Palette */
-    --bg-color: #121214;
-    --surface-color: #1a1a20;
-    --item-bg: #22222a;
-    --header-bg: #22222a;
-    --cell-bg: #22222a;
-    --cell-filled-bg: #2a2a35;
-    --cell-hover-bg: #4facfe1a;
-    --border-color: #333;
-    --text-color: #f0f0f0;
-    --text-muted: #999;
+    /* Layout Colors leaning on Material */
+    --item-bg: rgba(var(--mat-sys-surface-container), 0.5);
+    --header-bg: var(--mat-sys-surface-container-highest);
+    --cell-bg: var(--mat-sys-surface-container);
+    --cell-filled-bg: var(--mat-sys-surface-container-high);
+    --cell-hover-bg: rgba(0, 0, 0, 0.05); // Will adapt slightly based on background
+    --border-color: var(--mat-sys-outline-variant);
+    --text-color: var(--mat-sys-on-surface);
+    --text-muted: var(--mat-sys-on-surface-variant);
 
-    /* Brand Colors */
-    --primary-color: #4facfe;
-    --primary-hover: #00f2fe;
-    --danger-color: #ff4d4f;
+    /* Brand Colors (Sourced from Material Scheme) */
+    --primary-color: var(--mat-sys-primary);
+    --primary-hover: var(--mat-sys-primary-container);
+    --danger-color: var(--mat-sys-error);
     --success-color: #52c41a;
+    /* Keep a static green for success since M3 doesn't have a default semantic success color yet */
     --warning-color: #faad14;
+    /* Keep a static warning */
 }
 
 * {
@@ -28,12 +63,21 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-color);
-    background-image: radial-gradient(circle at top right, rgba(79, 172, 254, 0.05), transparent 40%),
-        radial-gradient(circle at bottom left, rgba(0, 242, 254, 0.05), transparent 40%);
+    font-family:
+        'Inter',
+        -apple-system,
+        BlinkMacSystemFont,
+        'Segoe UI',
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+    // Removing the forced background color so Material's `body` rule at the top dictates it
+    // Applying the gradient softly on top of the Material surface background
+    background-image:
+        radial-gradient(circle at top right, rgba(var(--mat-sys-primary-rgb, 79, 172, 254), 0.05), transparent 40%),
+        radial-gradient(circle at bottom left, rgba(var(--mat-sys-tertiary-rgb, 0, 242, 254), 0.05), transparent 40%);
     background-attachment: fixed;
-    color: var(--text-color);
 
     /* PWA Optimizations */
     -webkit-font-smoothing: antialiased;
@@ -46,4 +90,313 @@ body {
 .no-select {
     user-select: none;
     -webkit-user-select: none;
+}
+
+// -----------------------------------------------------
+// Component Styles (Consolidated)
+// -----------------------------------------------------
+
+/* Generala Layout */
+.generala-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh; // Mobile viewport height fix
+
+    .app-header {
+        background-color: var(--header-bg);
+        padding: 1rem;
+        text-align: center;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+
+        h1 {
+            margin: 0;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: -0.5px;
+        }
+    }
+
+    .content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1.5rem 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.setup-section {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .intro-text {
+        text-align: center;
+        color: var(--text-muted);
+    }
+
+    .center-actions {
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+
+        .btn-large {
+            padding: 0 2rem;
+            height: 48px;
+        }
+    }
+}
+
+.game-section {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .game-actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .game-over-banner {
+        background-color: rgba(82, 196, 26, 0.1);
+        border: 1px solid var(--success-color);
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+
+        h2 {
+            color: var(--success-color);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin: 0;
+            color: var(--text-color);
+        }
+    }
+}
+
+/* Player Input Component */
+.player-input-container {
+    background-color: var(--mat-sys-surface-container-low);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+
+    h3 {
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+
+    .input-group {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        align-items: flex-start;
+
+        .player-input-field {
+            flex: 1;
+
+            // Make height match button somewhat
+            ::ng-deep .mat-mdc-text-field-wrapper {
+                padding-bottom: 0;
+            }
+
+
+        }
+
+        button {
+            height: 56px;
+            border-radius: 8px;
+        }
+    }
+}
+
+/* Score Grid Component */
+.grid-container {
+    width: 100%;
+    // Modern scrollbar setup can go here
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.grid-scroll-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.score-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--mat-sys-surface-container-low);
+
+    th,
+    td {
+        border: 1px solid var(--border-color);
+        min-width: 80px;
+        text-align: center;
+    }
+
+    th {
+        padding: 0.75rem 0.5rem;
+        background-color: var(--header-bg);
+    }
+
+    td {
+        height: 50px;
+        padding: 0; // The cell container handles the touch target
+    }
+
+    .sticky-col {
+        position: sticky;
+        left: 0;
+        z-index: 2;
+        background-color: var(--header-bg); // Keeps it opaque over scrolling content
+        min-width: 120px;
+        text-align: left;
+        font-weight: 600;
+        padding-left: 1rem;
+        border-right: 2px solid var(--primary-color);
+    }
+
+    .category-header {
+        background-color: var(--border-color);
+    }
+
+    .player-header {
+        .player-name {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 90px;
+        }
+
+        .player-total {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+    }
+
+    .subtotal-row {
+        background-color: rgba(255, 255, 255, 0.02);
+        font-weight: bold;
+
+        td {
+            border-top: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .subtotal-cell {
+            padding: 0.5rem;
+            color: var(--text-color);
+            position: relative;
+        }
+    }
+
+    tfoot {
+        th {
+            background-color: rgba(79, 172, 254, 0.1);
+            color: var(--primary-color);
+            border-top: 2px solid var(--primary-color);
+            font-size: 1.1rem;
+        }
+    }
+
+    .bonus-indicator {
+        position: absolute;
+        top: -5px;
+        right: 2px;
+        font-size: 10px;
+    }
+}
+
+/* Score Cell Component */
+.cell-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: var(--cell-bg);
+    transition: background-color 0.2s;
+    position: relative;
+
+    &:active {
+        background-color: var(--cell-hover-bg);
+    }
+
+    &.has-value {
+        background-color: var(--cell-filled-bg);
+        color: var(--primary-color);
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    &.is-crossed {
+        color: var(--text-muted);
+        opacity: 0.7;
+    }
+
+    .servido-badge {
+        position: absolute;
+        bottom: 2px;
+        right: 4px;
+        font-size: 0.6rem;
+        background-color: var(--success-color);
+        color: #fff;
+        border-radius: 4px;
+        padding: 0 3px;
+        line-height: 1.2;
+    }
+}
+
+/* Material Dialog Overrides */
+.score-dialog-content {
+    .options-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding-top: 0.5rem;
+
+        .score-option-btn {
+            width: 100%;
+            height: 48px;
+            font-size: 1rem;
+        }
+    }
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

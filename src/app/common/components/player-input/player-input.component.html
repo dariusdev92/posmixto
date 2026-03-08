@@ -1,24 +1,27 @@
 <div class="player-input-container">
-    <h3>Jugadores</h3>
+    <h3 class="mat-h3">Jugadores</h3>
 
     <div class="input-group">
-        <input type="text" [formControl]="playerNameControl" placeholder="Nombre del jugador"
-            (keyup.enter)="addPlayer()" />
-        <button class="btn btn-primary" (click)="addPlayer()" [disabled]="!playerNameControl.value?.trim()">
-            Agregar
+        <mat-form-field appearance="outline" class="player-input-field">
+            <mat-label>Nombre del jugador</mat-label>
+            <input matInput [formControl]="playerNameControl" (keyup.enter)="addPlayer()" />
+        </mat-form-field>
+        <button mat-fab extended color="primary" (click)="addPlayer()" [disabled]="!playerNameControl.value?.trim()">
+            <mat-icon>add</mat-icon> AGREGAR
         </button>
     </div>
 
-    <ul class="players-list">
+    <mat-list class="players-list">
         @for (player of players(); track player.id) {
-        <li class="player-item">
-            <span>{{ player.name }}</span>
-            <button class="btn-icon" (click)="removePlayer(player.id)" aria-label="Eliminar jugador">
-                ✕
+        <mat-list-item>
+            <span matListItemTitle>{{ player.name }}</span>
+            <button mat-icon-button color="warn" matListItemMeta (click)="removePlayer(player.id)"
+                aria-label="Eliminar jugador">
+                <mat-icon>close</mat-icon>
             </button>
-        </li>
+        </mat-list-item>
         } @empty {
-        <li class="empty-state">No hay jugadores. Agrega al menos uno para comenzar.</li>
+        <p class="empty-state mat-body-2">No hay jugadores. Agrega al menos uno para comenzar.</p>
         }
-    </ul>
+    </mat-list>
 </div>

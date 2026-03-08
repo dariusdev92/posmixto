@@ -9,8 +9,7 @@ import { CATEGORY_LABELS, ScoreCategory } from '../../models/generala.models';
     selector: 'app-score-grid',
     standalone: true,
     imports: [CommonModule, ScoreCellComponent],
-    templateUrl: './score-grid.component.html',
-    styleUrl: './score-grid.component.scss'
+    templateUrl: './score-grid.component.html'
 })
 export class ScoreGridComponent {
     private stateService = inject(GeneralaStateService);
@@ -34,11 +33,5 @@ export class ScoreGridComponent {
         const state = this.gameState();
         if (!state || !state.scores[playerId]) return 0;
         return this.scoringService.calculateTotal(state.scores[playerId]);
-    }
-
-    getPlayerSubtotal(playerId: string): number {
-        const state = this.gameState();
-        if (!state || !state.scores[playerId]) return 0;
-        return this.scoringService.calculateSubtotal(state.scores[playerId]);
     }
 }

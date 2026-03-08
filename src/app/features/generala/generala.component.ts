@@ -1,5 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 import { PlayerInputComponent } from '../../common/components/player-input/player-input.component';
 import { ScoreGridComponent } from './components/score-grid/score-grid.component';
 import { GeneralaStateService } from './services/generala-state.service';
@@ -7,9 +8,8 @@ import { Player } from '../../common/models/player.model';
 
 @Component({
     selector: 'app-generala',
-    imports: [CommonModule, PlayerInputComponent, ScoreGridComponent],
-    templateUrl: './generala.component.html',
-    styleUrl: './generala.component.scss'
+    imports: [CommonModule, PlayerInputComponent, ScoreGridComponent, MatButtonModule],
+    templateUrl: './generala.component.html'
 })
 export class GeneralaComponent {
     stateService = inject(GeneralaStateService);

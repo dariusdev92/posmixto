@@ -1,5 +1,5 @@
 <div class="cell-container" [class.has-value]="!!entry()" [class.is-crossed]="entry()?.points === 0"
-    [class.is-selecting]="isSelecting" (click)="toggleSelection()">
+    (click)="toggleSelection()">
     @if (entry()) {
     <span class="score-value">
         {{ entry()!.type === 'TACHA' ? '✕' : entry()!.points }}
@@ -11,21 +11,4 @@
     <span class="placeholder"></span>
     }
 
-    @if (isSelecting) {
-    <div class="selection-popup">
-        <div class="popup-overlay" (click)="closeSelection(); $event.stopPropagation()"></div>
-        <div class="popup-content" (click)="$event.stopPropagation()">
-            @for (opt of options(); track opt.label) {
-            <button type="button" class="option-btn" [class.tacha-btn]="opt.type === 'TACHA'"
-                (click)="selectOption(opt)">
-                {{ opt.label }}
-            </button>
-            }
-            @if (entry()) {
-            <button class="cancel-btn eliminate-btn" (click)="clearScore()">Borrar</button>
-            }
-            <button class="cancel-btn" (click)="closeSelection()">Cancelar</button>
-        </div>
-    </div>
-    }
 </div>

@@ -14,31 +14,8 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Number Categories -->
-                @for (cat of categories.slice(0, 6); track cat) {
-                <tr>
-                    <td class="sticky-col category-cell">{{ getLabel(cat) }}</td>
-                    @for (player of players(); track player.id) {
-                    <td>
-                        <app-score-cell [playerId]="player.id" [category]="cat" [scores]="state.scores[player.id]" />
-                    </td>
-                    }
-                </tr>
-                }
-
-                <!-- Subtotal Row -->
-                <tr class="subtotal-row">
-                    <td class="sticky-col category-cell">Subtotal</td>
-                    @for (player of players(); track player.id) {
-                    <td class="subtotal-cell">
-                        {{ getPlayerSubtotal(player.id) }}
-                        <span class="bonus-indicator" *ngIf="getPlayerSubtotal(player.id) >= 63">⭐</span>
-                    </td>
-                    }
-                </tr>
-
-                <!-- Game Categories -->
-                @for (cat of categories.slice(6); track cat) {
+                <!-- Categories -->
+                @for (cat of categories; track cat) {
                 <tr>
                     <td class="sticky-col category-cell">{{ getLabel(cat) }}</td>
                     @for (player of players(); track player.id) {

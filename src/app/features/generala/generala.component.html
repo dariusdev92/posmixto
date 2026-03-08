@@ -1,22 +1,17 @@
 <div class="generala-container">
     <header class="app-header">
-        <h1>Anotador de Generala</h1>
+        <h1 class="mat-h1">Anotador de Generala</h1>
     </header>
 
     <main class="content">
         @if (!isGameActive()) {
         <div class="setup-section">
-            <p class="intro-text">Agrega a los jugadores para comenzar la partida.</p>
-            <!-- The component has two-way binding on players, but we can just use an event 
-             or wrap it if we want. Let's just pass an initial empty array and catch changes 
-             if we need, but actually the PlayerInputComponent maintains its own state and 
-             we just read it when clicking start, so let's adjust it. -->
+            <p class="intro-text mat-body-1">Agrega a los jugadores para comenzar la partida.</p>
 
-            <!-- Let's wrap PlayerInput inside a form or let PlayerInput emit when we are ready -->
             <app-player-input [(players)]="setupPlayers" />
 
             <div class="actions center-actions">
-                <button class="btn btn-primary btn-large" [disabled]="setupPlayers.length === 0"
+                <button mat-raised-button color="primary" class="btn-large" [disabled]="setupPlayers.length === 0"
                     (click)="startGame(setupPlayers)">
                     COMENZAR PARTIDA
                 </button>
@@ -26,16 +21,16 @@
         <div class="game-section fade-in">
 
             <div class="game-actions">
-                <button class="btn btn-outline" (click)="endGame()"
+                <button mat-stroked-button color="primary" (click)="endGame()"
                     *ngIf="!stateService.gameState()?.isFinished">Terminar</button>
-                <button class="btn btn-danger" (click)="resetGame()">Nueva Partida</button>
+                <button mat-flat-button color="warn" (click)="resetGame()">Nueva Partida</button>
             </div>
 
             <app-score-grid />
 
             <div class="game-over-banner" *ngIf="stateService.gameState()?.isFinished">
-                <h2>¡Partida Finalizada!</h2>
-                <p>Revisa la tabla de puntajes arriba para ver al ganador.</p>
+                <h2 class="mat-h2">¡Partida Finalizada!</h2>
+                <p class="mat-body-1">Revisa la tabla de puntajes arriba para ver al ganador.</p>
             </div>
 
         </div>
