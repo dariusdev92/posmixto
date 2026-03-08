@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1773008057592,
+  "timestamp": 1773008507160,
   "index": "/posmixto/index.html",
   "assetGroups": [
     {
@@ -11,13 +11,13 @@
         "ignoreVary": true
       },
       "urls": [
-        "/posmixto/chunk-BBUGX6XL.js",
-        "/posmixto/chunk-MEBMKSOL.js",
+        "/posmixto/chunk-4VRNK6BR.js",
+        "/posmixto/chunk-56T6HSWT.js",
         "/posmixto/favicon.ico",
         "/posmixto/index.html",
-        "/posmixto/main-3XUY2M5O.js",
+        "/posmixto/main-SRHH3I4K.js",
         "/posmixto/manifest.webmanifest",
-        "/posmixto/styles-OOY46WPJ.css"
+        "/posmixto/styles-J4EDZ2KY.css"
       ],
       "patterns": []
     },
@@ -44,8 +44,8 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/posmixto/chunk-BBUGX6XL.js": "0d97ed870b03e06131dadbcab7335847a3c50562",
-    "/posmixto/chunk-MEBMKSOL.js": "0707401e3eef9c1b5b6c795242c64737ca00b0ba",
+    "/posmixto/chunk-4VRNK6BR.js": "1549758f062ca00e705fca178ccd8949978d504c",
+    "/posmixto/chunk-56T6HSWT.js": "7068543ccccd1482be481ace812a22a69f32a95a",
     "/posmixto/favicon.ico": "ae477115334c933c852f79ffc5eabb7772e2681d",
     "/posmixto/icon.png": "353f17b58faed1d09acae7623d01eb809b541a1a",
     "/posmixto/icons/icon-128x128.png": "0f05bc53c45be4425863831205d0baeb3276869e",
@@ -56,10 +56,10 @@
     "/posmixto/icons/icon-512x512.png": "dcd6f845122f6aa5c1d7fd1cc38d16906d3e276e",
     "/posmixto/icons/icon-72x72.png": "1a46e93f26e496f4d552d8d8f8fd2ae084f28fcb",
     "/posmixto/icons/icon-96x96.png": "fa9dba68bf4f72d9e49b1fccece03d883624df11",
-    "/posmixto/index.html": "2eefc56f44ab4b1c7e0ef61517ab846fcde17236",
-    "/posmixto/main-3XUY2M5O.js": "4b2811ed2de646d8e6b38e69741bc99aa0f73f15",
+    "/posmixto/index.html": "15eb4748572a27e2d3112d6c6c53628778b83959",
+    "/posmixto/main-SRHH3I4K.js": "fd6cf1ea81fa13d02ec6001946750c090e56adb6",
     "/posmixto/manifest.webmanifest": "14657c6f234e4e01ef616b772d2dc1d612f66630",
-    "/posmixto/styles-OOY46WPJ.css": "f05ff3e985f46194b9f57faf3785b439ab967184"
+    "/posmixto/styles-J4EDZ2KY.css": "fb81c93ba10d34f9a9eaa06927c7c691a5fede6c"
   },
   "navigationUrls": [
     {
