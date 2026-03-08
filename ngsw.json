@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1773008507160,
+  "timestamp": 1773011607686,
   "index": "/posmixto/index.html",
   "assetGroups": [
     {
@@ -11,11 +11,14 @@
         "ignoreVary": true
       },
       "urls": [
-        "/posmixto/chunk-4VRNK6BR.js",
-        "/posmixto/chunk-56T6HSWT.js",
+        "/posmixto/chunk-3NGWC2MQ.js",
+        "/posmixto/chunk-IDQQWY2Z.js",
+        "/posmixto/chunk-JMV3MM7C.js",
+        "/posmixto/chunk-OXADDIH5.js",
+        "/posmixto/chunk-REUUEI6W.js",
         "/posmixto/favicon.ico",
         "/posmixto/index.html",
-        "/posmixto/main-SRHH3I4K.js",
+        "/posmixto/main-D3IKC5TR.js",
         "/posmixto/manifest.webmanifest",
         "/posmixto/styles-J4EDZ2KY.css"
       ],
@@ -44,8 +47,11 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/posmixto/chunk-4VRNK6BR.js": "1549758f062ca00e705fca178ccd8949978d504c",
-    "/posmixto/chunk-56T6HSWT.js": "7068543ccccd1482be481ace812a22a69f32a95a",
+    "/posmixto/chunk-3NGWC2MQ.js": "e2662e7aae65039ac168eebe0f65e62ee68d146a",
+    "/posmixto/chunk-IDQQWY2Z.js": "c5675b9f1d9e0530e27d581eef96060dd0f20a0b",
+    "/posmixto/chunk-JMV3MM7C.js": "3c546eb965271650405c1104559d49da1021a729",
+    "/posmixto/chunk-OXADDIH5.js": "a2a7494aae340291fadc138f446585366147fda0",
+    "/posmixto/chunk-REUUEI6W.js": "b0602eb81ecc56917dcdbcf881ae738adb0baba5",
     "/posmixto/favicon.ico": "ae477115334c933c852f79ffc5eabb7772e2681d",
     "/posmixto/icon.png": "353f17b58faed1d09acae7623d01eb809b541a1a",
     "/posmixto/icons/icon-128x128.png": "0f05bc53c45be4425863831205d0baeb3276869e",
@@ -56,9 +62,9 @@
     "/posmixto/icons/icon-512x512.png": "dcd6f845122f6aa5c1d7fd1cc38d16906d3e276e",
     "/posmixto/icons/icon-72x72.png": "1a46e93f26e496f4d552d8d8f8fd2ae084f28fcb",
     "/posmixto/icons/icon-96x96.png": "fa9dba68bf4f72d9e49b1fccece03d883624df11",
-    "/posmixto/index.html": "15eb4748572a27e2d3112d6c6c53628778b83959",
-    "/posmixto/main-SRHH3I4K.js": "fd6cf1ea81fa13d02ec6001946750c090e56adb6",
-    "/posmixto/manifest.webmanifest": "14657c6f234e4e01ef616b772d2dc1d612f66630",
+    "/posmixto/index.html": "ca23dd7fe920fd95ba60047f27cd054aaa7bd79d",
+    "/posmixto/main-D3IKC5TR.js": "b5b506d0f01fa853d51b17544f73f48a1adfa9ad",
+    "/posmixto/manifest.webmanifest": "20c504ac4f2a355832961dd7c204d2f566cea519",
     "/posmixto/styles-J4EDZ2KY.css": "fb81c93ba10d34f9a9eaa06927c7c691a5fede6c"
   },
   "navigationUrls": [

@@ -4,6 +4,15 @@
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
+  "share_target": {
+    "action": "/posmixto/share-receiver",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
   "icons": [
     {
       "src": "icons/icon-72x72.png",
