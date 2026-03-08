@@ -1,0 +1,63 @@
+<div class="grid-container">
+    @if (gameState(); as state) {
+    <div class="grid-scroll-wrapper">
+        <table class="score-table">
+            <thead>
+                <tr>
+                    <th class="sticky-col category-header">Juego</th>
+                    @for (player of players(); track player.id) {
+                    <th class="player-header">
+                        <div class="player-name">{{ player.name }}</div>
+                        <div class="player-total">{{ getPlayerTotal(player.id) }} pts</div>
+                    </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Number Categories -->
+                @for (cat of categories.slice(0, 6); track cat) {
+                <tr>
+                    <td class="sticky-col category-cell">{{ getLabel(cat) }}</td>
+                    @for (player of players(); track player.id) {
+                    <td>
+                        <app-score-cell [playerId]="player.id" [category]="cat" [scores]="state.scores[player.id]" />
+                    </td>
+                    }
+                </tr>
+                }
+
+                <!-- Subtotal Row -->
+                <tr class="subtotal-row">
+                    <td class="sticky-col category-cell">Subtotal</td>
+                    @for (player of players(); track player.id) {
+                    <td class="subtotal-cell">
+                        {{ getPlayerSubtotal(player.id) }}
+                        <span class="bonus-indicator" *ngIf="getPlayerSubtotal(player.id) >= 63">⭐</span>
+                    </td>
+                    }
+                </tr>
+
+                <!-- Game Categories -->
+                @for (cat of categories.slice(6); track cat) {
+                <tr>
+                    <td class="sticky-col category-cell">{{ getLabel(cat) }}</td>
+                    @for (player of players(); track player.id) {
+                    <td>
+                        <app-score-cell [playerId]="player.id" [category]="cat" [scores]="state.scores[player.id]" />
+                    </td>
+                    }
+                </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th class="sticky-col category-header">Total</th>
+                    @for (player of players(); track player.id) {
+                    <th class="player-total-cell">{{ getPlayerTotal(player.id) }}</th>
+                    }
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    }
+</div>

@@ -1,0 +1,130 @@
+.grid-container {
+    width: 100%;
+    background: var(--surface-color, #1e1e24);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.grid-scroll-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    /* Custom scrollbar */
+    &::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: var(--surface-color, #1e1e24);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--border-color, #333);
+        border-radius: 4px;
+    }
+}
+
+.score-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: max-content;
+
+    th,
+    td {
+        border-right: 1px solid var(--border-color, #333);
+        border-bottom: 1px solid var(--border-color, #333);
+        padding: 0;
+        text-align: center;
+        vertical-align: middle;
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+
+    thead th {
+        background: var(--header-bg, #2a2a35);
+        padding: 1rem 0.5rem;
+        color: var(--text-color, #fff);
+        border-top: none;
+    }
+
+    /* First Column sticky for mobile scrolling */
+    .sticky-col {
+        position: sticky;
+        left: 0;
+        z-index: 10;
+        background: var(--surface-color, #1e1e24);
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        font-weight: bold;
+        color: var(--text-color, #fff);
+        min-width: 120px;
+    }
+
+    thead .sticky-col {
+        z-index: 11;
+        /* Above other headers and sticky col */
+        background: var(--header-bg, #2a2a35);
+    }
+
+    tfoot .sticky-col {
+        z-index: 11;
+        background: var(--header-bg, #2a2a35);
+    }
+
+
+    .player-header {
+        min-width: 90px;
+
+        .player-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+            margin: 0 auto;
+        }
+
+        .player-total {
+            font-size: 0.85rem;
+            color: var(--primary-color, #4facfe);
+            margin-top: 4px;
+        }
+    }
+
+    .category-cell {
+        padding: 0.75rem 1rem;
+        text-align: left;
+        font-size: 0.95rem;
+    }
+
+    .subtotal-row {
+        background: rgba(255, 255, 255, 0.03);
+
+        .sticky-col {
+            background: var(--highlight-bg, #2b2b36);
+        }
+
+        td {
+            font-weight: bold;
+            color: var(--text-color, #fff);
+            padding: 0.5rem;
+        }
+
+        .bonus-indicator {
+            font-size: 0.8rem;
+            margin-left: 2px;
+        }
+    }
+
+    tfoot th {
+        background: var(--header-bg, #2a2a35);
+        padding: 1rem;
+        font-size: 1.2rem;
+        color: var(--primary-color, #4facfe);
+    }
+}
