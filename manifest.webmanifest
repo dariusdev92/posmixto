@@ -1,6 +1,6 @@
 {
-  "name": "posmixto",
-  "short_name": "posmixto",
+  "name": "Posmixto",
+  "short_name": "Posmixto",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

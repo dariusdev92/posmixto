@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1773006324854,
+  "timestamp": 1773007866199,
   "index": "/posmixto/index.html",
   "assetGroups": [
     {
@@ -11,13 +11,13 @@
         "ignoreVary": true
       },
       "urls": [
-        "/posmixto/chunk-2FUQ7PKO.js",
-        "/posmixto/chunk-RUVICYZL.js",
+        "/posmixto/chunk-BBUGX6XL.js",
+        "/posmixto/chunk-MEBMKSOL.js",
         "/posmixto/favicon.ico",
         "/posmixto/index.html",
-        "/posmixto/main-6V7UVZ3J.js",
+        "/posmixto/main-TCLLTB7G.js",
         "/posmixto/manifest.webmanifest",
-        "/posmixto/styles-FI6F2XNL.css"
+        "/posmixto/styles-OOY46WPJ.css"
       ],
       "patterns": []
     },
@@ -29,6 +29,7 @@
         "ignoreVary": true
       },
       "urls": [
+        "/posmixto/icon.png",
         "/posmixto/icons/icon-128x128.png",
         "/posmixto/icons/icon-144x144.png",
         "/posmixto/icons/icon-152x152.png",
@@ -43,21 +44,22 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/posmixto/chunk-2FUQ7PKO.js": "d02c2832c0861139fd9bef1456f1b8f9ffe14ab4",
-    "/posmixto/chunk-RUVICYZL.js": "7ab46ea330fa87e7206a98949099e12147c1a0d1",
-    "/posmixto/favicon.ico": "a25059de2a0db19d31d17f28f8e4b615c1bcb564",
-    "/posmixto/icons/icon-128x128.png": "c2f1730873691f1ef844bd544080c8af386c8113",
-    "/posmixto/icons/icon-144x144.png": "68a95aefbc177232416824ac81a90d4f85c0ae87",
-    "/posmixto/icons/icon-152x152.png": "6a079a4ae177c9023569965b047e4957f4dc2035",
-    "/posmixto/icons/icon-192x192.png": "fd771ba8fdf8213cc2f4f4ef0a3e6408642e2ad4",
-    "/posmixto/icons/icon-384x384.png": "483218cbbd19a71460ca5b467e293eda46f38e4c",
-    "/posmixto/icons/icon-512x512.png": "2d47012a546d7f9e3522ec271e4e28b4db14bc2d",
-    "/posmixto/icons/icon-72x72.png": "d4943379ea5c6b782e1a67876955d7507ba331fd",
-    "/posmixto/icons/icon-96x96.png": "7818d1e9b85b1c5094ac072061a207eb2180e55e",
-    "/posmixto/index.html": "fbec402cdb9af9fd30229410d0cbfbd85adf9e2b",
-    "/posmixto/main-6V7UVZ3J.js": "0cd9a5425f74b7b1f9f5ae7e28a4eb6d88910977",
-    "/posmixto/manifest.webmanifest": "2ba30e3aa313ba836b3291460469f2affbc52eb1",
-    "/posmixto/styles-FI6F2XNL.css": "570c36f99532c44971ffd1902387ecdd9a661e5d"
+    "/posmixto/chunk-BBUGX6XL.js": "0d97ed870b03e06131dadbcab7335847a3c50562",
+    "/posmixto/chunk-MEBMKSOL.js": "0707401e3eef9c1b5b6c795242c64737ca00b0ba",
+    "/posmixto/favicon.ico": "ae477115334c933c852f79ffc5eabb7772e2681d",
+    "/posmixto/icon.png": "353f17b58faed1d09acae7623d01eb809b541a1a",
+    "/posmixto/icons/icon-128x128.png": "0f05bc53c45be4425863831205d0baeb3276869e",
+    "/posmixto/icons/icon-144x144.png": "7c4fb6065ec6f5aee0afb7a0e596fc9511019c0d",
+    "/posmixto/icons/icon-152x152.png": "e9a0559cc3dd0ffa1e636e5a22d679b87115ded3",
+    "/posmixto/icons/icon-192x192.png": "f5eaa41d8f703148ad465f65682671df6dd3e783",
+    "/posmixto/icons/icon-384x384.png": "67088d15f3ce2b4e7f4be7208188cd1c386c0ba6",
+    "/posmixto/icons/icon-512x512.png": "dcd6f845122f6aa5c1d7fd1cc38d16906d3e276e",
+    "/posmixto/icons/icon-72x72.png": "1a46e93f26e496f4d552d8d8f8fd2ae084f28fcb",
+    "/posmixto/icons/icon-96x96.png": "fa9dba68bf4f72d9e49b1fccece03d883624df11",
+    "/posmixto/index.html": "68a34d4ae28e5f0f32e33592234aee6dd372c58f",
+    "/posmixto/main-TCLLTB7G.js": "d1cde695765d87c6b0882fb42b4a0849d7451f63",
+    "/posmixto/manifest.webmanifest": "14657c6f234e4e01ef616b772d2dc1d612f66630",
+    "/posmixto/styles-OOY46WPJ.css": "f05ff3e985f46194b9f57faf3785b439ab967184"
   },
   "navigationUrls": [
     {
