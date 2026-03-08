@@ -5,6 +5,7 @@
     </header>
 
     <main class="content">
+        @if (isStandalone()) {
         <div class="games-grid">
             <mat-card class="game-card" appearance="outlined">
                 <mat-card-header>
@@ -14,7 +15,7 @@
                 </mat-card-header>
                 <mat-card-content>
                     <p class="mat-body-2" style="margin-top: 1rem; color: var(--text-muted);">
-                        Anotador automatico del clasico juego de dados para jugar con les pibis despues de un fulbito
+                        Anotador automático del clásico juego de dados para jugar con les pibis después de un fulbito
                         del amor 💕
                     </p>
                 </mat-card-content>
@@ -25,5 +26,23 @@
                 </mat-card-actions>
             </mat-card>
         </div>
+        } @else {
+        <div class="install-prompt-container">
+            <mat-icon class="install-icon">downloading</mat-icon>
+            <h2 class="mat-h2">¡Instala Posmixto!</h2>
+            <p class="mat-body-1">
+                Para disfrutar de la mejor experiencia, pantalla completa y acceso rápido, instala Posmixto en tu
+                celular o PC.
+            </p>
+            <button mat-raised-button color="primary" class="install-btn" (click)="promptInstall()">
+                <mat-icon style="margin-right: 8px;">get_app</mat-icon> INSTALAR APP
+            </button>
+            <p class="mat-body-2 ios-hint">
+                <br>
+                <small>¿Estás en iPhone/iPad? Toca el botón de Compartir en tu navegador y elige "Agregar a
+                    inicio".</small>
+            </p>
+        </div>
+        }
     </main>
 </div>
