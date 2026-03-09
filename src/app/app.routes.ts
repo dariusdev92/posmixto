@@ -12,6 +12,14 @@ export const routes: Routes = [
         loadChildren: () => import('./features/generala/generala.routes').then(m => m.routes)
     },
     {
+        path: 'share-receiver',
+        loadComponent: () => import('./features/share-receiver/share-receiver').then(m => m.ShareReceiverComponent)
+    },
+    {
+        path: 'team-builder',
+        loadComponent: () => import('./features/team-builder/team-builder').then(m => m.TeamBuilder)
+    },
+    {
         path: '**',
         redirectTo: ''
     }

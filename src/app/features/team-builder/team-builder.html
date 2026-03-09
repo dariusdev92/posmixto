@@ -1,0 +1,30 @@
+<div class="app-container">
+    <header class="app-header">
+        <button mat-icon-button color="primary" routerLink="/" aria-label="Volver a Inicio" class="back-btn">
+            <span class="material-icons">arrow_back</span>
+        </button>
+        <h1 class="mat-h1">Equipo Ideal</h1>
+        <div class="spacer"></div>
+    </header>
+
+    <main class="pitch-container" #pitch>
+        <!-- Center Circle -->
+        <div class="pitch-center-circle"></div>
+
+        <div class="team-header team-a">Equipo A</div>
+        <div class="team-header team-b">Equipo B</div>
+
+        <!-- Single boundary for all players -->
+        <div class="pitch-boundary" style="position: absolute; top:0; left:0; right:0; bottom:0;">
+            @for (player of players(); track player.id) {
+            <div class="player-token" [class.team-a-token]="player.team === 'A'"
+                [class.team-b-token]="player.team === 'B'" cdkDrag cdkDragBoundary=".pitch-container"
+                [cdkDragFreeDragPosition]="{x: player.initialX, y: player.initialY}"
+                (cdkDragEnded)="onDragEnded($event, player)" style="position: absolute; z-index: 10;">
+                <div class="token-circle">{{ player.name.charAt(0).toUpperCase() }}</div>
+                <div class="token-name">{{ player.name }}</div>
+            </div>
+            }
+        </div>
+    </main>
+</div>

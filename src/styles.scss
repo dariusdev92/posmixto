@@ -97,52 +97,7 @@ body {
 // -----------------------------------------------------
 
 /* Generala Layout */
-.generala-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    height: 100dvh; // Mobile viewport height fix
 
-    .app-header {
-        background-color: var(--header-bg);
-        padding: 1rem;
-        text-align: center;
-        border-bottom: 1px solid var(--border-color);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        z-index: 10;
-
-        h1 {
-            margin: 0;
-            font-weight: 700;
-            color: var(--primary-color);
-            letter-spacing: -0.5px;
-        }
-
-        &.generala-header {
-            display: flex;
-            align-items: center;
-
-            .back-btn {
-                margin-right: 0.5rem;
-            }
-
-            h1 {
-                flex: 1;
-                text-align: left;
-                font-size: 1.5rem;
-            }
-        }
-    }
-
-    .content {
-        flex: 1;
-        overflow-y: auto;
-        padding: 1.5rem 1rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-}
 
 .setup-section {
     width: 100%;
@@ -416,33 +371,61 @@ body {
     }
 }
 
-/* Home Component Layout */
-.home-container {
+/* App-wide Page Layout (all features) */
+.app-container {
     display: flex;
     flex-direction: column;
     height: 100vh;
     height: 100dvh;
 
+    // Standard header: flex row with optional back button, title centered or left-aligned
     .app-header {
         background-color: var(--header-bg);
-        padding: 2rem 1rem;
-        text-align: center;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
         border-bottom: 1px solid var(--border-color);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         z-index: 10;
 
-        .mat-h1 {
-            color: var(--primary-color);
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
+        .back-btn {
+            margin-right: 0.5rem;
+            flex-shrink: 0;
         }
 
-        .subtitle {
-            color: var(--text-muted);
+        .spacer {
+            flex: 1;
+        }
+
+        // Home-style centered title (no back button)
+        &.centered {
+            justify-content: center;
+            flex-direction: column;
+            padding: 2rem 1rem;
+            text-align: center;
+
+            .mat-h1 {
+                color: var(--primary-color);
+                margin: 0;
+                font-size: 2.5rem;
+                font-weight: 800;
+                letter-spacing: -1px;
+            }
+
+            .subtitle {
+                color: var(--text-muted);
+                margin: 0.5rem 0 0;
+            }
+        }
+
+        // Feature header with back button
+        h1,
+        .mat-h1 {
             margin: 0;
-            margin-top: 0.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: -0.5px;
+            font-size: 1.5rem;
         }
     }
 
@@ -503,4 +486,171 @@ body {
             opacity: 0.8;
         }
     }
+}
+
+// ==========================================
+// FEATURE: TEAM BUILDER (Football Pitch UI)
+// ==========================================
+
+.pitch-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1; // fill remaining height inside home-container
+    min-height: 0; // needed for flex children to not overflow
+    height: 100%; // ensure inner content can use percentages
+    width: 100%; // fill full width of parent
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #1a2f23; // Dark turf green
+    position: relative;
+    overflow: hidden;
+
+    // Pitch markings (lines)
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 1rem;
+        right: 1rem;
+        bottom: 0;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        pointer-events: none;
+    }
+
+    // Midfield line
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 1rem;
+        right: 1rem;
+        height: 2px;
+        background-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+    // Center circle
+    .pitch-center-circle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        height: 100px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+    }
+
+    .team-header {
+        position: absolute;
+        left: 2rem;
+        color: rgba(255, 255, 255, 0.5);
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        pointer-events: none;
+        z-index: 1;
+
+        &.team-a {
+            top: 1.5rem;
+        }
+
+        &.team-b {
+            bottom: 1.5rem;
+        }
+    }
+
+    .pitch-half {
+        flex: 1;
+        position: relative;
+        padding: 4rem 1.5rem 2rem 1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        gap: 1rem;
+        z-index: 10;
+        min-height: 50%; // ensure drop zone is large enough
+
+        &.cdk-drop-list-dragging {
+            background-color: rgba(255, 255, 255, 0.05); // highlight drop zone
+        }
+    }
+
+    // Player Tokens
+    .player-token {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 64px;
+        cursor: grab;
+        // transition: transform 0.2s;
+
+        &:active {
+            cursor: grabbing;
+        }
+
+        .token-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            // transition: background-color 0.3s, color 0.3s;
+        }
+
+        .token-name {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            text-align: center;
+            line-height: 1.1;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    }
+
+    // Team Styles Context
+    .player-token.team-a-token .token-circle {
+        background-color: #222; // Dark Team A
+        color: #fff;
+        border-color: #555;
+    }
+
+    .player-token.team-b-token .token-circle {
+        background-color: #eee; // Light Team B
+        color: #111;
+        border-color: #fff;
+    }
+}
+
+// CDK Drag & Drop specific styles for the pitch
+.cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    opacity: 0.9;
+    z-index: 1000 !important; // keep above other elements
+}
+
+.cdk-drag-placeholder {
+    opacity: 0.3;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.pitch-half.cdk-drop-list-dragging .player-token:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

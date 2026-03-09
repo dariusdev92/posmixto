@@ -1,5 +1,5 @@
-<div class="home-container">
-    <header class="app-header">
+<div class="app-container">
+    <header class="app-header centered">
         <h1 class="mat-h1">Posmixto</h1>
         <p class="subtitle mat-body-medium">Kit de anotadores</p>
     </header>
@@ -22,6 +22,25 @@
                 <mat-card-actions align="end">
                     <button mat-flat-button color="primary" routerLink="/generala">
                         JUGAR
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+
+            <mat-card class="game-card" appearance="outlined">
+                <mat-card-header>
+                    <mat-icon mat-card-avatar color="primary">sports_soccer</mat-icon>
+                    <mat-card-title>Equipo Ideal</mat-card-title>
+                    <mat-card-subtitle>Armador de equipos</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p class="mat-body-2" style="margin-top: 1rem; color: var(--text-muted);">
+                        Pegá la lista de convocados desde WhatsApp y armá los equipos arrastrando las fichas en la
+                        canchita. ⚽
+                    </p>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button mat-flat-button color="primary" (click)="openTeamBuilderDialog()">
+                        ARMAR
                     </button>
                 </mat-card-actions>
             </mat-card>

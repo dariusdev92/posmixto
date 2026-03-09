@@ -1,0 +1,46 @@
+<div class="app-container">
+    <header class="app-header">
+        <button mat-icon-button color="primary" routerLink="/" aria-label="Volver a Inicio" class="back-btn">
+            <span class="material-icons">arrow_back</span>
+        </button>
+        <h1 class="mat-h1">Datos Recibidos</h1>
+        <div class="spacer"></div>
+    </header>
+
+    <main class="content">
+        <div style="max-width: 600px; margin: 0 auto;">
+            <mat-card appearance="outlined">
+                <mat-card-header>
+                    <mat-card-title>Se ha recibido texto compartido</mat-card-title>
+                    <mat-card-subtitle>Desde WhatsApp u otra app</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content style="margin-top: 1rem;">
+                    @if (parseError()) {
+                    <p class="mat-body-1" style="color: var(--warn-color);">
+                        {{ parseError() }}
+                    </p>
+                    @if (sharedText()) {
+                    <details style="margin-top: 1rem; color: var(--text-muted);">
+                        <summary>Ver texto recibido</summary>
+                        <pre
+                            style="background: var(--mat-sys-surface-container-highest); padding: 1rem; border-radius: 8px; white-space: pre-wrap; font-family: monospace; font-size: 0.8rem; margin-top: 0.5rem;">{{ sharedText() }}</pre>
+                    </details>
+                    }
+                    } @else {
+                    <div
+                        style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; gap: 1rem;">
+                        <mat-icon
+                            style="font-size: 48px; width: 48px; height: 48px; color: var(--primary-color);">sports_soccer</mat-icon>
+                        <p class="mat-body-1">Atrapando el pase de WhatsApp...</p>
+                    </div>
+                    }
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button mat-flat-button color="primary" routerLink="/">
+                        IR AL INICIO
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </main>
+</div>
