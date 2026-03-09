@@ -1,1 +1,0 @@
-import{D as t,R as a}from"./chunk-EHIS2CO4.js";var s=class e{players=a(["Juan","Pedro","Maria","Ana","Luis","Sofia"]);setPlayers(r){this.players.set(r)}getPlayers(){return this.players()}static \u0275fac=function(i){return new(i||e)};static \u0275prov=t({token:e,factory:e.\u0275fac,providedIn:"root"})};export{s as a};
