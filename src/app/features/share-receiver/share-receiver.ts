@@ -1,15 +1,19 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { TeamBuilderService } from '../team-builder/services/team-builder.service';
+
+import { HlmCardImports } from '@spartan-ng/helm/card';
+import { HlmButtonImports } from '@spartan-ng/helm/button';
+import { HlmIconImports } from '@spartan-ng/helm/icon';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { lucideArrowLeft, lucideUsers } from '@ng-icons/lucide';
 
 @Component({
   selector: 'app-share-receiver',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, RouterModule, ...HlmCardImports, ...HlmButtonImports, ...HlmIconImports, NgIconComponent],
+  providers: [provideIcons({ lucideArrowLeft, lucideUsers })],
   templateUrl: './share-receiver.html'
 })
 export class ShareReceiverComponent implements OnInit {

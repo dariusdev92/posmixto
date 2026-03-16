@@ -1,51 +1,58 @@
 import { Component, inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { injectBrnDialogCtx } from '@spartan-ng/brain/dialog';
+import { HlmDialogImports } from '@spartan-ng/helm/dialog';
+import { HlmButton } from '@spartan-ng/helm/button';
+import { BrnDialogRef } from '@spartan-ng/brain/dialog';
 
 export interface ScoreDialogData {
-    title: string;
-    hasValue: boolean;
-    options: { points: number, type: any, label: string }[];
+  title: string;
+  hasValue: boolean;
+  options: { points: number, type: any, label: string }[];
 }
 
 export type ScoreDialogResult = { action: 'select', option: any } | { action: 'clear' } | null;
 
 @Component({
-    selector: 'app-score-dialog',
-    standalone: true,
-    imports: [CommonModule, MatDialogModule, MatButtonModule],
-    template: `
-    <h2 mat-dialog-title>{{ data.title }}</h2>
-    <mat-dialog-content class="score-dialog-content">
-      <div class="options-grid">
-        @for (opt of data.options; track opt.label) {
-          <button mat-raised-button 
-                  [color]="opt.type === 'TACHA' ? 'warn' : 'primary'"
-                  class="score-option-btn"
-                  (click)="selectOption(opt)">
-            {{ opt.label }}
-          </button>
-        }
-      </div>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      @if (data.hasValue) {
-        <button mat-button color="warn" (click)="clearScore()">Borrar Anotación</button>
+  selector: 'app-score-dialog',
+  standalone: true,
+  imports: [CommonModule, HlmDialogImports, HlmButton],
+  template: `
+    <hlm-dialog-header>
+      <h3 hlmDialogTitle>{{ context.title }}</h3>
+      <!-- <p hlmDialogDescription></p> -->
+    </hlm-dialog-header>
+    
+    <div class="grid grid-cols-2 gap-2 py-4">
+      @for (opt of context.options; track opt.label) {
+        <button hlmBtn 
+                [variant]="opt.type === 'TACHA' ? 'destructive' : 'secondary'"
+                (click)="selectOption(opt)">
+          {{ opt.label }}
+        </button>
       }
-      <button mat-button mat-dialog-close>Cancelar</button>
-    </mat-dialog-actions>
+    </div>
+    
+    <div class="flex justify-end gap-2 pt-4">
+      @if (context.hasValue) {
+        <button hlmBtn variant="destructive" (click)="clearScore()">Borrar Anotación</button>
+      }
+    </div>
   `
 })
 export class ScoreDialogComponent {
-    dialogRef = inject(MatDialogRef<ScoreDialogComponent>);
-    data = inject<ScoreDialogData>(MAT_DIALOG_DATA);
+  context = injectBrnDialogCtx<ScoreDialogData>();
+  private dialogRef = inject(BrnDialogRef);
 
-    selectOption(option: any) {
-        this.dialogRef.close({ action: 'select', option });
-    }
+  selectOption(option: any) {
+    this.dialogRef.close({ action: 'select', option });
+  }
 
-    clearScore() {
-        this.dialogRef.close({ action: 'clear' });
-    }
+  clearScore() {
+    this.dialogRef.close({ action: 'clear' });
+  }
+
+  closeDialog() {
+    this.dialogRef.close(null);
+  }
 }

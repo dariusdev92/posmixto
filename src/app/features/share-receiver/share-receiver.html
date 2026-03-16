@@ -1,46 +1,43 @@
-<div class="app-container">
-    <header class="app-header">
-        <button mat-icon-button color="primary" routerLink="/" aria-label="Volver a Inicio" class="back-btn">
-            <span class="material-icons">arrow_back</span>
+<div class="min-h-screen flex flex-col">
+    <header class="bg-card border-b border-border shadow-sm p-4 flex items-center z-10">
+        <button hlmBtn variant="ghost" size="icon" routerLink="/" aria-label="Volver a Inicio" class="mr-2 shrink-0">
+            <ng-icon hlm name="lucideArrowLeft" size="sm"></ng-icon>
         </button>
-        <h1 class="mat-h1">Datos Recibidos</h1>
-        <div class="spacer"></div>
+        <h1 class="m-0 font-bold text-primary tracking-tight text-xl">Datos Recibidos</h1>
+        <div class="flex-1"></div>
     </header>
 
-    <main class="content">
-        <div style="max-width: 600px; margin: 0 auto;">
-            <mat-card appearance="outlined">
-                <mat-card-header>
-                    <mat-card-title>Se ha recibido texto compartido</mat-card-title>
-                    <mat-card-subtitle>Desde WhatsApp u otra app</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content style="margin-top: 1rem;">
+    <main class="flex-1 overflow-y-auto p-4 md:p-8">
+        <div class="max-w-[600px] mx-auto">
+            <section hlmCard>
+                <div hlmCardHeader>
+                    <h3 hlmCardTitle>Se ha recibido texto compartido</h3>
+                    <p hlmCardDescription>Desde WhatsApp u otra app</p>
+                </div>
+                <div hlmCardContent class="mt-4">
                     @if (parseError()) {
-                    <p class="mat-body-1" style="color: var(--warn-color);">
+                    <p class="text-destructive font-medium">
                         {{ parseError() }}
                     </p>
                     @if (sharedText()) {
-                    <details style="margin-top: 1rem; color: var(--text-muted);">
+                    <details class="mt-4 text-muted-foreground">
                         <summary>Ver texto recibido</summary>
-                        <pre
-                            style="background: var(--mat-sys-surface-container-highest); padding: 1rem; border-radius: 8px; white-space: pre-wrap; font-family: monospace; font-size: 0.8rem; margin-top: 0.5rem;">{{ sharedText() }}</pre>
+                        <pre class="bg-secondary p-4 rounded-md whitespace-pre-wrap font-mono text-xs mt-2">{{ sharedText() }}</pre>
                     </details>
                     }
                     } @else {
-                    <div
-                        style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; gap: 1rem;">
-                        <mat-icon
-                            style="font-size: 48px; width: 48px; height: 48px; color: var(--primary-color);">sports_soccer</mat-icon>
-                        <p class="mat-body-1">Atrapando el pase de WhatsApp...</p>
+                    <div class="flex flex-col items-center justify-center p-8 gap-4">
+                        <ng-icon hlm name="lucideUsers" size="xl" class="text-primary w-12 h-12"></ng-icon>
+                        <p class="text-base font-medium">Atrapando el pase de WhatsApp...</p>
                     </div>
                     }
-                </mat-card-content>
-                <mat-card-actions align="end">
-                    <button mat-flat-button color="primary" routerLink="/">
+                </div>
+                <div hlmCardFooter class="justify-end">
+                    <button hlmBtn variant="default" routerLink="/">
                         IR AL INICIO
                     </button>
-                </mat-card-actions>
-            </mat-card>
+                </div>
+            </section>
         </div>
     </main>
 </div>

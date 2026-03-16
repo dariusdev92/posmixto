@@ -1,20 +1,21 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { PlayerScores, ScoreCategory, ScoreEntry } from '../../models/generala.models';
 import { GeneralaScoringService } from '../../services/generala-scoring.service';
 import { GeneralaStateService } from '../../services/generala-state.service';
 import { ScoreDialogComponent, ScoreDialogData, ScoreDialogResult } from '../score-dialog/score-dialog.component';
 import { CATEGORY_LABELS } from '../../models/generala.models';
+import { HlmDialogService } from '@spartan-ng/helm/dialog';
 
 @Component({
     selector: 'app-score-cell',
-    imports: [CommonModule, MatDialogModule],
+    imports: [CommonModule],
     templateUrl: './score-cell.component.html'
 })
 export class ScoreCellComponent {
     private scoringService = inject(GeneralaScoringService);
     private stateService = inject(GeneralaStateService);
+    private dialogService = inject(HlmDialogService);
 
     playerId = input.required<string>();
     category = input.required<ScoreCategory>();
@@ -26,31 +27,27 @@ export class ScoreCellComponent {
     // Whether the game is finished (prevent edits)
     isFinished = computed(() => this.stateService.gameState()?.isFinished ?? false);
 
-    private dialog = inject(MatDialog);
-
     // UI State for the popup
     options = computed(() => this.scoringService.getValidOptionsForCategory(this.category()));
 
-    toggleSelection() {
+    async toggleSelection() {
         if (this.isFinished()) {
             return; // Game over
         }
 
-        const dialogRef = this.dialog.open<ScoreDialogComponent, ScoreDialogData, ScoreDialogResult>(
+        const dialogRef = this.dialogService.open(
             ScoreDialogComponent,
             {
-                data: {
-                    title: `Anotar ${CATEGORY_LABELS[this.category()]}`,
+                context: {
+                    title: `Anotar al ${CATEGORY_LABELS[this.category()]}`,
                     hasValue: !!this.entry(),
                     options: this.options()
                 },
-                width: '300px',
-                enterAnimationDuration: '150ms',
-                exitAnimationDuration: '150ms'
+                contentClass: 'w-[300px]'
             }
         );
 
-        dialogRef.afterClosed().subscribe(result => {
+        dialogRef.closed$.subscribe((result: ScoreDialogResult) => {
             if (!result) return;
             if (result.action === 'select') {
                 this.stateService.setScore(this.playerId(), this.category(), {

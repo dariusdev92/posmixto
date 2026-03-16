@@ -1,27 +1,29 @@
 <div class="player-input-container">
-    <h3 class="mat-h3">Jugadores</h3>
+    <h3 class="text-lg font-medium tracking-tight mb-4">Jugadores</h3>
 
-    <div class="input-group">
-        <mat-form-field appearance="outline" class="player-input-field">
-            <mat-label>Nombre del jugador</mat-label>
-            <input matInput [formControl]="playerNameControl" (keyup.enter)="addPlayer()" />
-        </mat-form-field>
-        <button mat-fab extended color="primary" (click)="addPlayer()" [disabled]="!playerNameControl.value?.trim()">
-            <mat-icon>add</mat-icon> AGREGAR
+    <div class="flex items-end gap-2 mb-6">
+        <label hlmLabel class="flex-1">
+            Nombre del jugador
+            <input hlmInput class="w-full mt-1.5" [formControl]="playerNameControl" (keyup.enter)="addPlayer()" />
+        </label>
+        <button hlmBtn (click)="addPlayer()" [disabled]="!playerNameControl.value?.trim()">
+            <ng-icon name="lucidePlus"></ng-icon> Agregar
         </button>
     </div>
 
-    <mat-list class="players-list">
+    <div class="flex flex-col gap-2">
         @for (player of players(); track player.id) {
-        <mat-list-item>
-            <span matListItemTitle>{{ player.name }}</span>
-            <button mat-icon-button color="warn" matListItemMeta (click)="removePlayer(player.id)"
-                aria-label="Eliminar jugador">
-                <mat-icon>close</mat-icon>
+        <div class="flex items-center justify-between p-3 border rounded-lg bg-card text-card-foreground">
+            <span class="text-sm font-medium">{{ player.name }}</span>
+            <button hlmBtn variant="ghost" size="icon"
+                class="text-destructive hover:bg-destructive/10 hover:text-destructive"
+                (click)="removePlayer(player.id)" aria-label="Eliminar jugador">
+                <ng-icon name="lucideX"></ng-icon>
             </button>
-        </mat-list-item>
+        </div>
         } @empty {
-        <p class="empty-state mat-body-2">No hay jugadores. Agrega al menos uno para comenzar.</p>
+        <p class="text-sm text-muted-foreground italic p-4 text-center border border-dashed rounded-lg">No hay
+            jugadores. Agrega al menos uno para comenzar.</p>
         }
-    </mat-list>
+    </div>
 </div>

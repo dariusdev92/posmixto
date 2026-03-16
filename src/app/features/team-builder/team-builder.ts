@@ -1,74 +1,121 @@
-import { Component, effect, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule, CdkDragEnd } from '@angular/cdk/drag-drop';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { TeamBuilderService } from './services/team-builder.service';
+
+import { HlmButtonImports } from '@spartan-ng/helm/button';
+import { HlmIconImports } from '@spartan-ng/helm/icon';
+import { HlmInputImports } from '@spartan-ng/helm/input';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { lucideArrowLeft, lucidePlus, lucideUsers, lucideTrash } from '@ng-icons/lucide';
 
 export interface PlayerToken {
   id: string;
   name: string;
   initialX: number;
   initialY: number;
-  team: 'A' | 'B'; // A = Top (Black), B = Bottom (White)
+  team: 'A' | 'B';
 }
 
 @Component({
   selector: 'app-team-builder',
   standalone: true,
-  imports: [CommonModule, DragDropModule, MatButtonModule, MatIconModule, RouterModule],
+  imports: [CommonModule, DragDropModule, FormsModule, RouterModule, ...HlmButtonImports, ...HlmIconImports, ...HlmInputImports, NgIconComponent],
+  providers: [provideIcons({ lucideArrowLeft, lucidePlus, lucideUsers, lucideTrash })],
   templateUrl: './team-builder.html',
 })
 export class TeamBuilder implements OnInit {
   private teamService = inject(TeamBuilderService);
-  private router = inject(Router);
 
   @ViewChild('pitch', { static: true }) pitchRef!: ElementRef<HTMLDivElement>;
 
   players = signal<PlayerToken[]>([]);
-
-  constructor() {
-    effect(() => {
-      console.log(this.players());
-    });
-  }
+  newPlayerName = signal<string>('');
 
   ngOnInit() {
     const names = this.teamService.getPlayers();
-
-    if (!names || names.length === 0) {
-      this.router.navigate(['/']);
-      return;
+    if (names && names.length > 0) {
+      this.setPlayersFromNames(names);
     }
+    // If empty, just show the pitch with the add UI (no redirect)
+  }
 
-    // Initialize players with random positions within their logical half to spread them out
-    // and give them an initial team color
+  private setPlayersFromNames(names: string[]) {
     const tokens: PlayerToken[] = names.map((name, index) => {
       const isFirstHalf = index < Math.ceil(names.length / 2);
-
-      // We will place them initially in a grid-like fashion for cleanliness
       const col = index % 3;
       const row = Math.floor(index / 3);
-
-      // X: spread across 3 columns (approx 100px apart, starting at 50px)
       const x = 50 + (col * 120);
-
-      // Y: spread across rows. Max height relies on viewport mostly, 
-      // but let's just push team B down by 300px initially
       const yStrata = isFirstHalf ? 50 : 350;
       const y = yStrata + (row * 80);
-
       return {
-        id: `player-${index}`,
-        name: name,
+        id: `player-${Date.now()}-${index}`,
+        name,
         initialX: x,
         initialY: y,
         team: (isFirstHalf ? 'A' : 'B') as 'A' | 'B'
       };
     });
-
     this.players.set(tokens);
+  }
+
+  addPlayer() {
+    const name = this.newPlayerName().trim();
+    if (!name || name.length > 30) return;
+
+    const current = this.players();
+    const index = current.length;
+    const col = index % 3;
+    const row = Math.floor(index / 3);
+    const x = 50 + (col * 120);
+    const y = 350 + (row * 80);
+
+    const newPlayer: PlayerToken = {
+      id: `player-${Date.now()}`,
+      name,
+      initialX: x,
+      initialY: y,
+      team: 'B'
+    };
+
+    this.players.set([...current, newPlayer]);
+    this.newPlayerName.set('');
+  }
+
+  removePlayer(id: string) {
+    this.players.set(this.players().filter(p => p.id !== id));
+    this.deletingIds.delete(id);
+  }
+
+  onAddKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') this.addPlayer();
+  }
+
+  // ── Long press to delete ─────────────────────────────────────────────
+  private longPressTimers = new Map<string, ReturnType<typeof setTimeout>>();
+  deletingIds = new Set<string>(); // players currently counting down
+
+  onLongPressStart(event: PointerEvent, id: string) {
+    // Prevent triggering the drag
+    event.stopPropagation();
+    this.deletingIds.add(id);
+
+    const timer = setTimeout(() => {
+      this.removePlayer(id);
+    }, 2000);
+
+    this.longPressTimers.set(id, timer);
+  }
+
+  onLongPressEnd(id: string) {
+    const timer = this.longPressTimers.get(id);
+    if (timer) {
+      clearTimeout(timer);
+      this.longPressTimers.delete(id);
+    }
+    this.deletingIds.delete(id);
   }
 
   onDragEnded(event: CdkDragEnd, player: PlayerToken) {

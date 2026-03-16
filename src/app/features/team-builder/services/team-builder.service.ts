@@ -4,7 +4,7 @@ import { Injectable, signal } from '@angular/core';
     providedIn: 'root'
 })
 export class TeamBuilderService {
-    players = signal<string[]>(['Juan', 'Pedro', 'Maria', 'Ana', 'Luis', 'Sofia']);
+    players = signal<string[]>([]);
 
     setPlayers(playerNames: string[]) {
         this.players.set(playerNames);

@@ -1,30 +1,48 @@
-<div class="app-container">
-    <header class="app-header">
-        <button mat-icon-button color="primary" routerLink="/" aria-label="Volver a Inicio" class="back-btn">
-            <span class="material-icons">arrow_back</span>
+<div class="min-h-screen flex flex-col">
+    <header class="bg-card border-b border-border shadow-sm p-4 flex items-center z-10 shrink-0">
+        <button hlmBtn variant="ghost" size="icon" routerLink="/" aria-label="Volver a Inicio" class="mr-2 shrink-0">
+            <ng-icon hlm name="lucideArrowLeft"></ng-icon>
         </button>
-        <h1 class="mat-h1">Equipo Ideal</h1>
-        <div class="spacer"></div>
+        <h1 class="m-0 font-bold text-primary tracking-tight text-xl">Equipos</h1>
+        <div class="flex-1"></div>
     </header>
 
     <main class="pitch-container" #pitch>
         <!-- Center Circle -->
         <div class="pitch-center-circle"></div>
-
-        <div class="team-header team-a">Equipo A</div>
-        <div class="team-header team-b">Equipo B</div>
+        <!-- <div class="team-header team-a">Equipo A</div>
+        <div class="team-header team-b">Equipo B</div> -->
 
         <!-- Single boundary for all players -->
         <div class="pitch-boundary" style="position: absolute; top:0; left:0; right:0; bottom:0;">
             @for (player of players(); track player.id) {
             <div class="player-token" [class.team-a-token]="player.team === 'A'"
-                [class.team-b-token]="player.team === 'B'" cdkDrag cdkDragBoundary=".pitch-container"
-                [cdkDragFreeDragPosition]="{x: player.initialX, y: player.initialY}"
-                (cdkDragEnded)="onDragEnded($event, player)" style="position: absolute; z-index: 10;">
+                [class.team-b-token]="player.team === 'B'" [class.deleting]="deletingIds.has(player.id)" cdkDrag
+                cdkDragBoundary=".pitch-container" [cdkDragFreeDragPosition]="{x: player.initialX, y: player.initialY}"
+                (cdkDragEnded)="onDragEnded($event, player)" (cdkDragStarted)="onLongPressEnd(player.id)"
+                (pointerdown)="onLongPressStart($event, player.id)" (pointerup)="onLongPressEnd(player.id)"
+                (pointercancel)="onLongPressEnd(player.id)" (pointerleave)="onLongPressEnd(player.id)"
+                style="position: absolute; z-index: 10; touch-action: none;">
                 <div class="token-circle">{{ player.name.charAt(0).toUpperCase() }}</div>
                 <div class="token-name">{{ player.name }}</div>
             </div>
             }
+
+            @if (players().length === 0) {
+            <div class="pitch-empty-hint">
+                <ng-icon hlm name="lucideUsers" size="xl" style="width: 48px; height: 48px; opacity: 0.4;"></ng-icon>
+                <p style="opacity: 0.5; margin-top: 0.5rem;">Agrégá jugadores abajo</p>
+            </div>
+            }
         </div>
     </main>
+
+    <!-- Add player bar (fixed at bottom) -->
+    <div class="flex items-center gap-3 p-3 bg-card border-t border-border shrink-0">
+        <input hlmInput class="flex-1" [ngModel]="newPlayerName()" (ngModelChange)="newPlayerName.set($event)"
+            (keydown)="onAddKeydown($event)" placeholder="Ej: Tomi" autocomplete="off" maxlength="30">
+        <button hlmBtn size="icon" variant="default" (click)="addPlayer()" class="shrink-0 w-11 h-11 rounded-full">
+            <ng-icon hlm name="lucidePlus"></ng-icon>
+        </button>
+    </div>
 </div>

@@ -1,40 +1,40 @@
-<div class="app-container">
-    <header class="app-header">
-        <button mat-icon-button color="primary" routerLink="/" aria-label="Volver a Inicio" class="back-btn">
-            <mat-icon>arrow_back</mat-icon>
+<div class="flex flex-col h-full bg-background text-foreground">
+    <header class="flex items-center p-4 border-b bg-card">
+        <button hlmBtn variant="ghost" size="icon" routerLink="/" aria-label="Volver a Inicio">
+            <ng-icon name="lucideArrowLeft"></ng-icon>
         </button>
-        <h1 class="mat-h1">Anotador de Generala</h1>
-        <div class="spacer"></div>
+        <h1 class="text-xl font-semibold tracking-tight ml-4 flex-1">Anotador de Generala</h1>
+        @if (isGameActive()) {
+        <button hlmBtn variant="ghost" size="icon" (click)="resetGame()" aria-label="Nueva Partida"
+            class="text-muted-foreground hover:text-foreground">
+            <ng-icon name="lucideRotateCcw"></ng-icon>
+        </button>
+        }
     </header>
 
-    <main class="content">
+    <main class="flex-1 overflow-y-auto p-4">
         @if (!isGameActive()) {
-        <div class="setup-section">
-            <p class="intro-text mat-body-1">Agrega a los jugadores para comenzar la partida.</p>
+        <div class="flex flex-col max-w-md mx-auto h-full pt-8">
+            <p class="text-muted-foreground text-center mb-8">Agrega a los jugadores para comenzar la partida.</p>
 
             <app-player-input [(players)]="setupPlayers" />
 
-            <div class="actions center-actions">
-                <button mat-raised-button color="primary" class="btn-large" [disabled]="setupPlayers.length === 0"
+            <div class="mt-auto pt-8 pb-4">
+                <button hlmBtn variant="default" class="w-full h-12 text-base" [disabled]="setupPlayers.length === 0"
                     (click)="startGame(setupPlayers)">
-                    COMENZAR PARTIDA
+                    Comenzar partida
                 </button>
             </div>
         </div>
         } @else {
-        <div class="game-section fade-in">
-
-            <div class="game-actions">
-                <button mat-stroked-button color="primary" (click)="endGame()"
-                    *ngIf="!stateService.gameState()?.isFinished">Terminar</button>
-                <button mat-flat-button color="warn" (click)="resetGame()">Nueva Partida</button>
-            </div>
+        <div class="flex flex-col h-full animate-in fade-in duration-500">
 
             <app-score-grid />
 
-            <div class="game-over-banner" *ngIf="stateService.gameState()?.isFinished">
-                <h2 class="mat-h2">¡Partida Finalizada!</h2>
-                <p class="mat-body-1">Revisa la tabla de puntajes arriba para ver al ganador.</p>
+            <div class="mt-6 p-6 border border-primary/20 bg-primary/5 rounded-xl text-center"
+                *ngIf="stateService.gameState()?.isFinished">
+                <h2 class="text-2xl font-bold text-primary mb-2">¡Partida Finalizada!</h2>
+                <p class="text-muted-foreground">Revisa la tabla de puntajes arriba para ver al ganador.</p>
             </div>
 
         </div>

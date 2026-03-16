@@ -1,17 +1,19 @@
 import { Component, model } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 import { Player } from '../../models/player.model';
 import { nanoid } from 'nanoid';
+import { HlmButton } from '@spartan-ng/helm/button';
+import { HlmInput } from '@spartan-ng/helm/input';
+import { HlmLabel } from '@spartan-ng/helm/label';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { lucidePlus, lucideX } from '@ng-icons/lucide';
 
 @Component({
     selector: 'app-player-input',
-    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatListModule],
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, HlmButton, HlmInput, HlmLabel, NgIcon],
+    providers: [provideIcons({ lucidePlus, lucideX })],
     templateUrl: './player-input.component.html'
 })
 export class PlayerInputComponent {

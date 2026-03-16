@@ -1,14 +1,16 @@
-<div class="cell-container" [class.has-value]="!!entry()" [class.is-crossed]="entry()?.points === 0"
-    (click)="toggleSelection()">
+<div class="flex items-center justify-center w-full h-full h-[24px] cursor-pointer hover:bg-muted/50 transition-colors relative"
+    [class.text-muted-foreground]="entry()?.points === 0" [class.font-bold]="!!entry() && entry()?.points !== 0"
+    [class.text-primary]="!!entry() && entry()?.points !== 0" (click)="toggleSelection()">
+
     @if (entry()) {
-    <span class="score-value">
+    <span class="text-base">
         {{ entry()!.type === 'TACHA' ? '✕' : entry()!.points }}
     </span>
     @if (entry()!.type === 'SERVIDO') {
-    <span class="servido-badge">S</span>
+    <span
+        class="absolute top-1 right-1 flex items-center justify-center w-3.5 h-3.5 bg-primary text-primary-foreground text-[8px] font-bold rounded-full shadow-sm">S</span>
     }
     } @else {
-    <span class="placeholder"></span>
+    <span class="text-transparent selection:bg-transparent">-</span>
     }
-
 </div>

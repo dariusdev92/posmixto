@@ -1,16 +1,18 @@
 import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { PlayerInputComponent } from '../../common/components/player-input/player-input.component';
 import { ScoreGridComponent } from './components/score-grid/score-grid.component';
 import { GeneralaStateService } from './services/generala-state.service';
 import { Player } from '../../common/models/player.model';
+import { HlmButton } from '@spartan-ng/helm/button';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { lucideArrowLeft, lucideRotateCcw } from '@ng-icons/lucide';
 
 @Component({
     selector: 'app-generala',
-    imports: [CommonModule, RouterModule, PlayerInputComponent, ScoreGridComponent, MatButtonModule, MatIconModule],
+    imports: [CommonModule, RouterModule, PlayerInputComponent, ScoreGridComponent, HlmButton, NgIcon],
+    providers: [provideIcons({ lucideArrowLeft, lucideRotateCcw })],
     templateUrl: './generala.component.html'
 })
 export class GeneralaComponent {
