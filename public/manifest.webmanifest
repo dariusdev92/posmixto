@@ -1,6 +1,6 @@
 {
-  "name": "Posmixto",
-  "short_name": "Posmixto",
+  "name": "ToolKit",
+  "short_name": "ToolKit",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
