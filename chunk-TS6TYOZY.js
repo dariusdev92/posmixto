@@ -1,1 +1,0 @@
-import{D as r,R as s}from"./chunk-OOYPP5T4.js";var a=class e{players=s([]);setPlayers(t){this.players.set(t)}getPlayers(){return this.players()}static \u0275fac=function(i){return new(i||e)};static \u0275prov=r({token:e,factory:e.\u0275fac,providedIn:"root"})};export{a};
