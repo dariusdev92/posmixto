@@ -30,7 +30,7 @@ export class Home implements OnInit {
   onBeforeInstallPrompt(e: Event) {
     e.preventDefault();
     this.deferredPrompt = e;
-    this.isStandalone.set(true);
+    this.isStandalone.set(false);
   }
 
   async promptInstall() {
