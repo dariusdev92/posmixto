@@ -19,11 +19,11 @@ export type ScoreDialogResult = { action: 'select', option: any } | { action: 'c
   imports: [CommonModule, HlmDialogImports, HlmButton],
   template: `
     <hlm-dialog-header>
-      <h3 hlmDialogTitle>{{ context.title }}</h3>
+      <h3 hlmDialogTitle>Anotar</h3>
       <!-- <p hlmDialogDescription></p> -->
     </hlm-dialog-header>
     
-    <div class="grid grid-cols-2 gap-2 py-4">
+    <div class="grid grid-cols-1 gap-2 py-4">
       @for (opt of context.options; track opt.label) {
         <button hlmBtn 
                 [variant]="opt.type === 'TACHA' ? 'destructive' : 'secondary'"
@@ -33,9 +33,9 @@ export type ScoreDialogResult = { action: 'select', option: any } | { action: 'c
       }
     </div>
     
-    <div class="flex justify-end gap-2 pt-4">
+    <div class="flex justify-end gap-1 pt-4">
       @if (context.hasValue) {
-        <button hlmBtn variant="destructive" (click)="clearScore()">Borrar Anotación</button>
+        <button hlmBtn variant="secondary" (click)="clearScore()">Borrar Anotación</button>
       }
     </div>
   `

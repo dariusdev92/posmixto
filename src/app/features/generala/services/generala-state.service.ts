@@ -70,7 +70,7 @@ export class GeneralaStateService {
 
     resetGame() {
         this.state.set(null);
-        this.playersRef.set([]);
+        // this.playersRef.set([]);
         this.persist();
     }
 
