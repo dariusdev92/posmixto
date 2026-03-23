@@ -12,6 +12,10 @@ export const routes: Routes = [
         loadChildren: () => import('./features/generala/generala.routes').then(m => m.routes)
     },
     {
+        path: 'truco',
+        loadComponent: () => import('./features/truco/truco').then(m => m.TrucoComponent)
+    },
+    {
         path: 'share-receiver',
         loadComponent: () => import('./features/share-receiver/share-receiver').then(m => m.ShareReceiverComponent)
     },
