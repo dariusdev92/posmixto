@@ -10,8 +10,9 @@ import { HlmButton } from '@spartan-ng/helm/button';
 @Component({
   selector: 'app-palitos',
   standalone: true,
+  imports: [CommonModule],
   template: `
-    <div class="relative w-16 h-16">
+    <div class="relative w-16 h-16 transition-all duration-100">
       <!-- 
         Palitos arrangement:
         1: vertical left
@@ -21,25 +22,15 @@ import { HlmButton } from '@spartan-ng/helm/button';
         5: diagonal
       -->
       <!-- Stick 1 -->
-      @if (count >= 1) {
-        <div class="absolute left-0 top-0 w-2 h-full bg-zinc-300 rounded-full"></div>
-      }
+      <div class="absolute left-0 top-0 w-2 h-full rounded-full transition-colors duration-200" [ngClass]="count >= 1 ? 'bg-zinc-300' : 'bg-transparent'"></div>
       <!-- Stick 2 -->
-      @if (count >= 2) {
-        <div class="absolute left-0 top-0 w-full h-2 bg-zinc-300 rounded-full"></div>
-      }
+      <div class="absolute left-0 top-0 w-full h-2 rounded-full transition-colors duration-200" [ngClass]="count >= 2 ? 'bg-zinc-300' : 'bg-transparent'"></div>
       <!-- Stick 3 -->
-      @if (count >= 3) {
-        <div class="absolute right-0 top-0 w-2 h-full bg-zinc-300 rounded-full"></div>
-      }
+      <div class="absolute right-0 top-0 w-2 h-full rounded-full transition-colors duration-200" [ngClass]="count >= 3 ? 'bg-zinc-300' : 'bg-transparent'"></div>
       <!-- Stick 4 -->
-      @if (count >= 4) {
-        <div class="absolute left-0 bottom-0 w-full h-2 bg-zinc-300 rounded-full"></div>
-      }
+      <div class="absolute left-0 bottom-0 w-full h-2 rounded-full transition-colors duration-200" [ngClass]="count >= 4 ? 'bg-zinc-300' : 'bg-transparent'"></div>
       <!-- Stick 5 (Diagonal) -->
-      @if (count >= 5) {
-        <div class="absolute left-1/2 top-1/2 w-[140%] h-2 bg-zinc-300 rounded-full origin-center -translate-x-1/2 -translate-y-1/2 rotate-45"></div>
-      }
+      <div class="absolute left-1/2 top-1/2 w-[140%] h-2 rounded-full origin-center -translate-x-1/2 -translate-y-1/2 rotate-45 transition-colors duration-200" [ngClass]="count >= 5 ? 'bg-zinc-300' : 'bg-transparent'"></div>
     </div>
   `
 })
@@ -74,7 +65,7 @@ export class PalitosComponent {
           (contextmenu)="removePoint($event, 0)"
         >
           <!-- Malas -->
-          <div class="grid grid-cols-1 content-start place-items-center gap-4">
+          <div class="grid grid-cols-1 place-items-center gap-4">
             @for (stick of getSticks(scores[0] > 15 ? 15 : scores[0]); track $index) {
               <app-palitos [count]="stick"></app-palitos>
             }
@@ -84,7 +75,7 @@ export class PalitosComponent {
           <div class="w-full h-1 bg-zinc-700 my-4 opacity-50"></div>
   
           <!-- Buenas -->
-          <div class="grid grid-cols-1 content-start place-items-center gap-4">
+          <div class="grid grid-cols-1 place-items-center gap-4">
             @for (stick of getSticks(Math.max(0, scores[0] - 15)); track $index) {
               <app-palitos [count]="stick"></app-palitos>
             }
@@ -142,15 +133,12 @@ export class TrucoComponent {
     this.trucoService.reset();
   }
 
-  // Returns an array of numbers representing palitos (1 to 5)
-  // E.g., for 12 points: [5, 5, 2]
+  // Returns an array of numbers representing palitos for a half (0 to 15 points)
+  // Always returns exactly 3 elements to preserve deterministic flex/grid alignment layout.
   getSticks(points: number): number[] {
-    const fullFives = Math.floor(points / 5);
-    const remainder = points % 5;
-    const result = Array(fullFives).fill(5);
-    if (remainder > 0) {
-      result.push(remainder);
-    }
-    return result;
+    const p1 = Math.min(5, Math.max(0, points));
+    const p2 = Math.min(5, Math.max(0, points - 5));
+    const p3 = Math.min(5, Math.max(0, points - 10));
+    return [p1, p2, p3];
   }
 }
