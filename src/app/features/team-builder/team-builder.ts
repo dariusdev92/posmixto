@@ -9,7 +9,7 @@ import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { lucideArrowLeft, lucidePlus, lucideUsers, lucideTrash } from '@ng-icons/lucide';
+import { lucideArrowLeft, lucidePlus, lucideUsers, lucideTrash, lucideShare2, lucideCheck } from '@ng-icons/lucide';
 
 export interface PlayerToken {
   id: string;
@@ -23,7 +23,7 @@ export interface PlayerToken {
   selector: 'app-team-builder',
   standalone: true,
   imports: [CommonModule, DragDropModule, FormsModule, RouterModule, ...HlmButtonImports, ...HlmIconImports, ...HlmInputImports, NgIconComponent],
-  providers: [provideIcons({ lucideArrowLeft, lucidePlus, lucideUsers, lucideTrash })],
+  providers: [provideIcons({ lucideArrowLeft, lucidePlus, lucideUsers, lucideTrash, lucideShare2, lucideCheck })],
   templateUrl: './team-builder.html',
 })
 export class TeamBuilder implements OnInit {
@@ -33,6 +33,44 @@ export class TeamBuilder implements OnInit {
 
   players = signal<PlayerToken[]>([]);
   newPlayerName = signal<string>('');
+  copied = signal<boolean>(false);
+
+  exportTeams() {
+    const allPlayers = this.players();
+    if (allPlayers.length === 0) return;
+
+    const blancos = allPlayers.filter(p => p.team === 'A').map(p => p.name);
+    const negros = allPlayers.filter(p => p.team === 'B').map(p => p.name);
+
+    let text = '*NEGRO*\n';
+    if (negros.length) negros.forEach(p => text += `- ${p}\n`);
+    else text += '(vacío)\n';
+
+    text += '\n*BLANCO*\n';
+    if (blancos.length) blancos.forEach(p => text += `- ${p}\n`);
+    else text += '(vacío)\n';
+
+    if (navigator.share) {
+      navigator.share({
+        title: 'Equipos',
+        text: text
+      }).catch(err => {
+        // Fallback or user cancelled, try to copy if it failed for not being supported properly
+        this.copyToClipboard(text);
+      });
+    } else {
+      this.copyToClipboard(text);
+    }
+  }
+
+  private copyToClipboard(text: string) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        this.copied.set(true);
+        setTimeout(() => this.copied.set(false), 2000);
+      }).catch(console.error);
+    }
+  }
 
   ngOnInit() {
     const names = this.teamService.getPlayers();

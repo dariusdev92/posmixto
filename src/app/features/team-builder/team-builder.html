@@ -5,6 +5,13 @@
         </button>
         <h1 class="m-0 font-bold text-primary tracking-tight text-xl">Equipos</h1>
         <div class="flex-1"></div>
+        <button hlmBtn variant="ghost" size="icon" (click)="exportTeams()" aria-label="Exportar a WhatsApp" title="Exportar equipos para WhatsApp" class="shrink-0 text-muted-foreground hover:text-foreground" [disabled]="players().length === 0">
+            @if(copied()) {
+                <ng-icon hlm name="lucideCheck" class="text-green-500"></ng-icon>
+            } @else {
+                <ng-icon hlm name="lucideShare2"></ng-icon>
+            }
+        </button>
     </header>
 
     <main class="pitch-container" #pitch>

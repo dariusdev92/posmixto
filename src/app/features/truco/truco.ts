@@ -1,4 +1,5 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, HostListener, Input, inject } from '@angular/core';
+import { TrucoService } from './truco.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -25,11 +26,11 @@ import { HlmButton } from '@spartan-ng/helm/button';
       }
       <!-- Stick 2 -->
       @if (count >= 2) {
-        <div class="absolute right-0 top-0 w-2 h-full bg-zinc-300 rounded-full"></div>
+        <div class="absolute left-0 top-0 w-full h-2 bg-zinc-300 rounded-full"></div>
       }
       <!-- Stick 3 -->
       @if (count >= 3) {
-        <div class="absolute left-0 top-0 w-full h-2 bg-zinc-300 rounded-full"></div>
+        <div class="absolute right-0 top-0 w-2 h-full bg-zinc-300 rounded-full"></div>
       }
       <!-- Stick 4 -->
       @if (count >= 4) {
@@ -121,24 +122,24 @@ export class PalitosComponent {
   `
 })
 export class TrucoComponent {
+  private trucoService = inject(TrucoService);
   Math = Math;
-  scores: [number, number] = [0, 0];
+
+  get scores(): [number, number] {
+    return this.trucoService.scores;
+  }
 
   addPoint(team: 0 | 1) {
-    if (this.scores[team] < 30) {
-      this.scores[team]++;
-    }
+    this.trucoService.addPoint(team);
   }
 
   removePoint(event: Event, team: 0 | 1) {
     event.preventDefault(); // Prevent context menu
-    if (this.scores[team] > 0) {
-      this.scores[team]--;
-    }
+    this.trucoService.removePoint(team);
   }
 
   reset() {
-    this.scores = [0, 0];
+    this.trucoService.reset();
   }
 
   // Returns an array of numbers representing palitos (1 to 5)
