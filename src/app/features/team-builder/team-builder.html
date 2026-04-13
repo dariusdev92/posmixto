@@ -5,11 +5,13 @@
         </button>
         <h1 class="m-0 font-bold text-primary tracking-tight text-xl">Equipos</h1>
         <div class="flex-1"></div>
-        <button hlmBtn variant="ghost" size="icon" (click)="exportTeams()" aria-label="Exportar a WhatsApp" title="Exportar equipos para WhatsApp" class="shrink-0 text-muted-foreground hover:text-foreground" [disabled]="players().length === 0">
+        <button hlmBtn variant="ghost" size="icon" (click)="exportTeams()" aria-label="Exportar a WhatsApp"
+            title="Exportar equipos para WhatsApp" class="shrink-0 text-muted-foreground hover:text-foreground"
+            [disabled]="players().length === 0">
             @if(copied()) {
-                <ng-icon hlm name="lucideCheck" class="text-green-500"></ng-icon>
+            <ng-icon hlm name="lucideCheck" class="text-green-500"></ng-icon>
             } @else {
-                <ng-icon hlm name="lucideShare2"></ng-icon>
+            <ng-icon hlm name="lucideShare2"></ng-icon>
             }
         </button>
     </header>
@@ -35,19 +37,19 @@
             </div>
             }
 
-            @if (players().length === 0) {
+            <!-- @if (players().length === 0) {
             <div class="pitch-empty-hint">
                 <ng-icon hlm name="lucideUsers" size="xl" style="width: 48px; height: 48px; opacity: 0.4;"></ng-icon>
                 <p style="opacity: 0.5; margin-top: 0.5rem;">Agrégá jugadores abajo</p>
             </div>
-            }
+            } -->
         </div>
     </main>
 
     <!-- Add player bar (fixed at bottom) -->
     <div class="flex items-center gap-3 p-3 bg-card border-t border-border shrink-0">
         <input hlmInput class="flex-1" [ngModel]="newPlayerName()" (ngModelChange)="newPlayerName.set($event)"
-            (keydown)="onAddKeydown($event)" placeholder="Ej: Tomi" autocomplete="off" maxlength="30">
+            (keydown)="onAddKeydown($event)" placeholder="Ej: Luchito" autocomplete="off" maxlength="30">
         <button hlmBtn size="icon" variant="default" (click)="addPlayer()" class="shrink-0 w-11 h-11 rounded-full">
             <ng-icon hlm name="lucidePlus"></ng-icon>
         </button>

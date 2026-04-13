@@ -92,7 +92,7 @@ export class PalitosComponent {
           (contextmenu)="removePoint($event, 1)"
         >
           <!-- Malas -->
-          <div class="grid grid-cols-1 content-start place-items-center gap-4">
+          <div class="grid grid-cols-1 place-items-center gap-4">
             @for (stick of getSticks(scores[1] > 15 ? 15 : scores[1]); track $index) {
               <app-palitos [count]="stick"></app-palitos>
             }
@@ -102,7 +102,7 @@ export class PalitosComponent {
           <div class="w-full h-1 bg-zinc-700 my-4 opacity-50"></div>
   
           <!-- Buenas -->
-          <div class="grid grid-cols-1 content-start place-items-center gap-4">
+          <div class="grid grid-cols-1 place-items-center gap-4">
             @for (stick of getSticks(Math.max(0, scores[1] - 15)); track $index) {
               <app-palitos [count]="stick"></app-palitos>
             }

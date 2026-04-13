@@ -16,6 +16,7 @@ export interface PlayerToken {
   name: string;
   initialX: number;
   initialY: number;
+  currentY?: number;
   team: 'A' | 'B';
 }
 
@@ -39,8 +40,17 @@ export class TeamBuilder implements OnInit {
     const allPlayers = this.players();
     if (allPlayers.length === 0) return;
 
-    const blancos = allPlayers.filter(p => p.team === 'A').map(p => p.name);
-    const negros = allPlayers.filter(p => p.team === 'B').map(p => p.name);
+    // Equipo negro (A) se ordena de arriba hacia abajo (ascendente en Y)
+    const negros = allPlayers
+      .filter(p => p.team === 'A')
+      .sort((a, b) => (a.currentY ?? a.initialY) - (b.currentY ?? b.initialY))
+      .map(p => p.name);
+
+    // Equipo blanco (B) se ordena de abajo hacia arriba (descendente en Y)
+    const blancos = allPlayers
+      .filter(p => p.team === 'B')
+      .sort((a, b) => (b.currentY ?? b.initialY) - (a.currentY ?? a.initialY))
+      .map(p => p.name);
 
     let text = '*NEGRO*\n';
     if (negros.length) negros.forEach(p => text += `- ${p}\n`);
@@ -93,6 +103,7 @@ export class TeamBuilder implements OnInit {
         name,
         initialX: x,
         initialY: y,
+        currentY: y,
         team: (isFirstHalf ? 'A' : 'B') as 'A' | 'B'
       };
     });
@@ -115,6 +126,7 @@ export class TeamBuilder implements OnInit {
       name,
       initialX: x,
       initialY: y,
+      currentY: y,
       team: 'B'
     };
 
@@ -142,7 +154,7 @@ export class TeamBuilder implements OnInit {
 
     const timer = setTimeout(() => {
       this.removePlayer(id);
-    }, 2000);
+    }, 1000);
 
     this.longPressTimers.set(id, timer);
   }
@@ -168,6 +180,9 @@ export class TeamBuilder implements OnInit {
     // The pitch midpoint
     const midpointY = pitchRect.height / 2;
 
+    // Mantenemos la posición Y actual en el objeto para el ordenamiento
+    player.currentY = relativeY;
+
     // Update team color based on which half of the pitch the center of the token lands
     const newTeam: 'A' | 'B' = relativeY < midpointY ? 'A' : 'B';
 
@@ -175,7 +190,7 @@ export class TeamBuilder implements OnInit {
       // Mutate the specific player and update signal
       const updatedPlayers = this.players().map(p => {
         if (p.id === player.id) {
-          return { ...p, team: newTeam };
+          return { ...p, team: newTeam, currentY: relativeY };
         }
         return p;
       });

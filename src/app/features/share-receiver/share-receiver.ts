@@ -72,9 +72,6 @@ export class ShareReceiverComponent implements OnInit {
       // Step 2: Remove any remaining leading bullet/dash/asterisk
       cleanLine = cleanLine.replace(/^[-\*•>]\s*/, '').trim();
 
-      // Step 3: Remove trailing bullets or dots (e.g. "Baca •" -> "Baca")
-      cleanLine = cleanLine.replace(/\s*[•\*]+\s*$/, '').trim();
-
       if (cleanLine.length > 1 && cleanLine.length <= 30) {
         players.push(cleanLine);
       }
