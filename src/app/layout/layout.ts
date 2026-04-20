@@ -13,13 +13,13 @@ export interface LayoutRouteData {
   standalone: true,
   imports: [RouterModule, HeaderComponent],
   template: `
-    <div class="flex flex-col h-full bg-background text-foreground">
+    <div class="flex flex-col h-[100dvh] bg-background text-foreground">
       <app-header 
         [title]="layoutService.config().title" 
         [action]="layoutService.config().action"
         (actionClick)="onActionClick()" />
       
-      <main class="flex-1 overflow-y-auto">
+      <main class="flex-1 min-h-0 overflow-hidden">
         <router-outlet />
       </main>
     </div>
