@@ -9,6 +9,7 @@ Las skills están localizadas en `.agent/skills/`. El agente debe usarlas autom�
 | Contexto | Skill |
 |---------|-------|
 | Desarrollo Angular frontend | `.agent/skills/angular/` |
+| Layout y app shell | `.agent/skills/app-layout/` |
 | Componentes Spartan UI | `.agent/skills/spartan/` |
 | Estilos con Tailwind CSS | `.agent/skills/tailwind-4/` |
 | Código TypeScript | `.agent/skills/typescript/` |

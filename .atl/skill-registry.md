@@ -16,6 +16,7 @@ See `_shared/skill-resolver.md` for the full resolution protocol.
 | When user asks to create a new skill, add agent instructions, or document patterns for AI. | skill-creator | .agent/skills/skill-creator/SKILL.md |
 | When styling with Tailwind - cn(), theme variables, no var() in className. | tailwind-4 | .agent/skills/tailwind-4/SKILL.md |
 | When writing TypeScript code - types, interfaces, generics. | typescript | .agent/skills/typescript/SKILL.md |
+| When creating app shells, layout components, or configuring application routing with layouts. | app-layout | .agent/skills/app-layout/SKILL.md |
 | When working with Spartan UI components - Brain/Helm, @spartan-ng packages, or any headless + styled component library. | spartan-ng | .agent/skills/spartan/SKILL.md |
 
 ## Compact Rules
@@ -70,6 +71,13 @@ Pre-digested rules per skill. Delegators copy matching blocks into sub-agent pro
 - **Flat Interfaces**: Keep one level depth. Extract nested objects to dedicated interfaces.
 - **Strict**: NEVER use `any`. Use `unknown` or generics. Use `import type` for type-only imports.
 - **Guards**: Use `value is Type` guards for safe narrowing.
+
+### app-layout
+- **Placement**: Layouts go in `layout/` root, NOT in `features/` or `shared/`. They are app-wide singletons.
+- **Structure**: Layout = shell component with `<router-outlet />` + header/sidebar/footer.
+- **Routing**: Use parent routes with `component: Layout` and children for content.
+- **Multiple Layouts**: Auth vs Public layouts via different parent routes, not feature flags.
+- **State**: Use signals for layout state (sidebar open/closed, theme).
 
 ### spartan-ng
 - **Layer Choice**: Use Helm for styled UI, Brain for headless/custom. NEVER mix Brain + Helm selectors on same element.
