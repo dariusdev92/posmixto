@@ -1,8 +1,8 @@
 import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GeneralaStateService } from '../../services/generala-state.service';
-import { ScoreCellComponent } from '../score-cell/score-cell.component';
-import { GeneralaScoringService } from '../../services/generala-scoring.service';
+import { GeneralaStateService } from '../../services/generala-state';
+import { ScoreCellComponent } from '../score-cell/score-cell';
+import { GeneralaScoringService } from '../../services/generala-scoring';
 import { CATEGORY_LABELS, ScoreCategory } from '../../models/generala.models';
 
 @Component({

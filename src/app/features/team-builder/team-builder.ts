@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DragDropModule, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TeamBuilderService } from './services/team-builder.service';
+import { TeamBuilderService } from './services/team-builder';
 
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmIconImports } from '@spartan-ng/helm/icon';

@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { GeneralaComponent } from './generala.component';
+import { GeneralaComponent } from './generala';
 
 export const routes: Routes = [
     {

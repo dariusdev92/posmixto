@@ -1,10 +1,10 @@
 import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { PlayerInputComponent } from '../../common/components/player-input/player-input.component';
-import { ScoreGridComponent } from './components/score-grid/score-grid.component';
-import { GeneralaStateService } from './services/generala-state.service';
-import { Player } from '../../common/models/player.model';
+import { PlayerInputComponent } from '../../core/components/player-input/player-input';
+import { ScoreGridComponent } from './components/score-grid/score-grid';
+import { GeneralaStateService } from './services/generala-state';
+import { Player } from '../../core/models/player';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideArrowLeft, lucideRotateCcw } from '@ng-icons/lucide';
