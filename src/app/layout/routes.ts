@@ -9,7 +9,9 @@ export const LAYOUT_ROUTES: Routes = [
       title: 'Anotador de Generala',
       action: 'reset'
     } satisfies LayoutRouteData,
-    loadChildren: () => import('../features/generala/generala.routes').then(m => m.routes)
+    children: [
+      { path: '', loadChildren: () => import('../features/generala/generala.routes').then(m => m.routes) }
+    ]
   },
   {
     path: 'truco',
@@ -18,7 +20,9 @@ export const LAYOUT_ROUTES: Routes = [
       title: 'Truco',
       action: 'reset'
     } satisfies LayoutRouteData,
-    loadComponent: () => import('../features/truco/truco').then(m => m.TrucoComponent)
+    children: [
+      { path: '', loadComponent: () => import('../features/truco/truco').then(m => m.TrucoComponent) }
+    ]
   },
   {
     path: 'share-receiver',
@@ -27,7 +31,9 @@ export const LAYOUT_ROUTES: Routes = [
       title: 'Recibir Comparte',
       action: 'none'
     } satisfies LayoutRouteData,
-    loadComponent: () => import('../features/share-receiver/share-receiver').then(m => m.ShareReceiverComponent)
+    children: [
+      { path: '', loadComponent: () => import('../features/share-receiver/share-receiver').then(m => m.ShareReceiverComponent) }
+    ]
   },
   {
     path: 'team-builder',
@@ -36,6 +42,8 @@ export const LAYOUT_ROUTES: Routes = [
       title: 'Team Builder',
       action: 'share'
     } satisfies LayoutRouteData,
-    loadComponent: () => import('../features/team-builder/team-builder').then(m => m.TeamBuilder)
+    children: [
+      { path: '', loadComponent: () => import('../features/team-builder/team-builder').then(m => m.TeamBuilder) }
+    ]
   }
 ];

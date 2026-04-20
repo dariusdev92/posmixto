@@ -2,14 +2,13 @@ import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angul
 import { CommonModule } from '@angular/common';
 import { DragDropModule, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { TeamBuilderService } from './services/team-builder';
 
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { lucideArrowLeft, lucidePlus, lucideUsers, lucideTrash, lucideShare2, lucideCheck } from '@ng-icons/lucide';
+import { lucidePlus, lucideUsers, lucideTrash, lucideShare2, lucideCheck } from '@ng-icons/lucide';
 
 export interface PlayerToken {
   id: string;
@@ -23,8 +22,8 @@ export interface PlayerToken {
 @Component({
   selector: 'app-team-builder',
   standalone: true,
-  imports: [CommonModule, DragDropModule, FormsModule, RouterModule, ...HlmButtonImports, ...HlmIconImports, ...HlmInputImports, NgIconComponent],
-  providers: [provideIcons({ lucideArrowLeft, lucidePlus, lucideUsers, lucideTrash, lucideShare2, lucideCheck })],
+  imports: [CommonModule, DragDropModule, FormsModule, ...HlmButtonImports, ...HlmIconImports, ...HlmInputImports, NgIconComponent],
+  providers: [provideIcons({ lucidePlus, lucideUsers, lucideTrash, lucideShare2, lucideCheck })],
   templateUrl: './team-builder.html',
 })
 export class TeamBuilder implements OnInit {

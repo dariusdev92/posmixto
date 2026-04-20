@@ -1,9 +1,5 @@
 import { Component, HostListener, Input, inject, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { lucideArrowLeft, lucideRotateCcw } from '@ng-icons/lucide';
-import { HlmButton } from '@spartan-ng/helm/button';
 import { GameSessionService } from '../../core/services/game-session';
 
 const TRUCO_STORAGE_KEY = 'PWA_TRUCO_STATE';
@@ -86,22 +82,10 @@ export class PalitosComponent {
 @Component({
   selector: 'app-truco',
   standalone: true,
-  imports: [CommonModule, PalitosComponent, RouterLink, NgIconComponent, HlmButton],
-  providers: [provideIcons({ lucideArrowLeft, lucideRotateCcw })],
+  imports: [CommonModule, PalitosComponent],
   template: `
-    <div class="flex flex-col h-dvh bg-background text-foreground">
-      <header class="flex items-center p-4 border-b bg-card">
-          <button hlmBtn variant="ghost" size="icon" routerLink="/" aria-label="Volver a Inicio">
-              <ng-icon name="lucideArrowLeft"></ng-icon>
-          </button>
-          <h1 class="text-xl font-semibold tracking-tight ml-4 flex-1">Anotador de Truco</h1>
-          <button hlmBtn variant="ghost" size="icon" (click)="reset()" aria-label="Limpiar Partida"
-              class="text-muted-foreground hover:text-foreground">
-              <ng-icon name="lucideRotateCcw"></ng-icon>
-          </button>
-      </header>
-  
-      <main class="flex-1 overflow-hidden relative touch-none select-none bg-zinc-900 text-zinc-100 grid grid-cols-[1fr_4px_1fr] pb-4 rounded-b-xl border border-t-0 border-border mx-auto w-full">
+    <div class="flex flex-col h-full bg-background text-foreground">
+      <main class="flex-1 overflow-hidden relative touch-none select-none bg-zinc-900 text-zinc-100 grid grid-cols-[1fr_4px_1fr] pb-4 border border-border mx-auto w-full">
         <!-- Team 1 Side -->
         <div 
           class="h-full cursor-pointer grid grid-rows-[1fr_auto_1fr] py-4 sm:px-8"
