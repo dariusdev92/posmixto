@@ -1,23 +1,29 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { PlayerInputComponent } from '../../core/components/player-input/player-input';
 import { ScoreGridComponent } from './components/score-grid/score-grid';
 import { GeneralaStateService } from './services/generala-state';
 import { Player } from '../../core/models/player';
 import { HlmButton } from '@spartan-ng/helm/button';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideArrowLeft, lucideRotateCcw } from '@ng-icons/lucide';
 
 @Component({
     selector: 'app-generala',
-    imports: [CommonModule, RouterModule, PlayerInputComponent, ScoreGridComponent, HlmButton, NgIcon],
-    providers: [provideIcons({ lucideArrowLeft, lucideRotateCcw })],
+    imports: [CommonModule, RouterModule, PlayerInputComponent, ScoreGridComponent, HlmButton],
     templateUrl: './generala.component.html'
 })
-export class GeneralaComponent {
+export class GeneralaComponent implements OnInit {
     stateService = inject(GeneralaStateService);
     isGameActive = this.stateService.isGameActive;
+    private route = inject(ActivatedRoute);
+
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            if (params['action'] === 'reset') {
+                this.resetGame();
+            }
+        });
+    }
 
     setupPlayers: Player[] = [];
     players = this.stateService.activePlayers; // In case we want to show it before starting
