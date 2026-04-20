@@ -1,6 +1,7 @@
-import { Component, HostListener, Input, inject, Injectable } from '@angular/core';
+import { Component, HostListener, Input, inject, Injectable, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameSessionService } from '../../core/services/game-session';
+import { actionClickTrigger } from '../../layout/layout.service';
 
 const TRUCO_STORAGE_KEY = 'PWA_TRUCO_STATE';
 
@@ -143,6 +144,16 @@ export class PalitosComponent {
 export class TrucoComponent {
   private trucoService = inject(TrucoService);
   Math = Math;
+
+  constructor() {
+    // Listen to layout action clicks for reset
+    effect(() => {
+      const current = actionClickTrigger();
+      if (current > 0) {
+        this.reset();
+      }
+    });
+  }
 
   get scores(): [number, number] {
     return this.trucoService.scores;
