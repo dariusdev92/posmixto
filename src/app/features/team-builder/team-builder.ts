@@ -1,8 +1,9 @@
-import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, OnDestroy, signal, ViewChild, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
 import { TeamBuilderService } from './services/team-builder';
+import { actionClickTrigger } from '../../layout/layout.service';
 
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
@@ -81,12 +82,21 @@ export class TeamBuilder implements OnInit {
     }
   }
 
+constructor() {
+    // Track action clicks from layout header
+    effect(() => {
+      const current = actionClickTrigger();
+      if (current > 0) {
+        this.exportTeams();
+      }
+    });
+  }
+
   ngOnInit() {
     const names = this.teamService.getPlayers();
     if (names && names.length > 0) {
       this.setPlayersFromNames(names);
     }
-    // If empty, just show the pitch with the add UI (no redirect)
   }
 
   private setPlayersFromNames(names: string[]) {
