@@ -16,6 +16,11 @@ Las skills están localizadas en `.agent/skills/`. El agente debe usarlas autom�
 | Crear Pull Requests | `.agent/skills/github-pr/` |
 | Crear nuevas skills | `.agent/skills/skill-creator/` |
 
+## Código
+
+- **Código en inglés** — nombres de variables, funciones, clases, etc.
+- **Comentarios en español** — para documentar el propósito, lógica de negocio, etc.
+
 ## Persistencia
 
 - Todas las decisiones arquitectónicas y nuevos patrones deben guardarse en **Engram** (`mem_save`).
