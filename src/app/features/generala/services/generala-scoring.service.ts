@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PlayType, ScoreCategory, ScoreEntry, PlayerScores } from '../models/generala.models';
+import { PlayType, ScoreCategory, ScoreEntry, PlayerScores } from '../models/generala.types';
 
 @Injectable({
     providedIn: 'root'

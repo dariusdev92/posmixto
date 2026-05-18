@@ -1,9 +1,9 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { GeneralaGameState, PlayerScores, ScoreCategory, ScoreEntry } from '../models/generala.models';
+import { GeneralaGameState, PlayerScores, ScoreCategory, ScoreEntry } from '../models/generala.types';
 import { nanoid } from 'nanoid';
-import { GeneralaScoringService } from './generala-scoring';
-import { GameSessionService } from '../../../core/services/game-session';
-import { Player } from '../../../core/models/player';
+import { GeneralaScoringService } from './generala-scoring.service';
+import { GameSessionService } from '../../../core/services/game-session.service';
+import { Player } from '../models/player.types';
 
 const STORAGE_KEY = 'PWA_GENERALA_STATE';
 

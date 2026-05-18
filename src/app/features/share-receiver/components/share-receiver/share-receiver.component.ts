@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
-import { TeamBuilderService } from '../team-builder/services/team-builder';
+import { TeamBuilderService } from '../../../../core/services/team-builder.service';
 
 import { HlmCardImports } from '@spartan-ng/helm/card';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
@@ -14,7 +14,7 @@ import { lucideArrowLeft, lucideUsers } from '@ng-icons/lucide';
   standalone: true,
   imports: [CommonModule, RouterModule, ...HlmCardImports, ...HlmButtonImports, ...HlmIconImports, NgIconComponent],
   providers: [provideIcons({ lucideArrowLeft, lucideUsers })],
-  templateUrl: './share-receiver.html'
+  templateUrl: './share-receiver.component.html'
 })
 export class ShareReceiverComponent implements OnInit {
   private route = inject(ActivatedRoute);

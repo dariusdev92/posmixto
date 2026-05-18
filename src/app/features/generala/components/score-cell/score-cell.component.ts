@@ -1,10 +1,10 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PlayerScores, ScoreCategory, ScoreEntry } from '../../models/generala.models';
-import { GeneralaScoringService } from '../../services/generala-scoring';
-import { GeneralaStateService } from '../../services/generala-state';
-import { ScoreDialogComponent, ScoreDialogData, ScoreDialogResult } from '../score-dialog/score-dialog';
-import { CATEGORY_LABELS } from '../../models/generala.models';
+import { PlayerScores, ScoreCategory, ScoreEntry } from '../../models/generala.types';
+import { GeneralaScoringService } from '../../services/generala-scoring.service';
+import { GeneralaStateService } from '../../services/generala-state.service';
+import { ScoreDialogComponent, ScoreDialogData, ScoreDialogResult } from '../score-dialog/score-dialog.component';
+import { CATEGORY_LABELS } from '../../models/generala.domain';
 import { HlmDialogService } from '@spartan-ng/helm/dialog';
 
 @Component({

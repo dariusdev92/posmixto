@@ -13,7 +13,7 @@ import { lucideDices, lucideUsers, lucideDownload, lucideHardDriveDownload } fro
   selector: 'app-home',
   imports: [CommonModule, RouterModule, HlmCardImports, HlmButtonImports, HlmIconImports, NgIconComponent],
   providers: [provideIcons({ lucideDices, lucideUsers, lucideDownload, lucideHardDriveDownload })],
-  templateUrl: './home.html'
+  templateUrl: './home.component.html'
 })
 export class Home implements OnInit {
   private router = inject(Router);
@@ -23,14 +23,14 @@ export class Home implements OnInit {
   ngOnInit() {
     // Detect standalone mode
     const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;
-    this.isStandalone.set(isStandaloneMode);
+    this.isStandalone.set(true);
   }
 
   @HostListener('window:beforeinstallprompt', ['$event'])
   onBeforeInstallPrompt(e: Event) {
     e.preventDefault();
     this.deferredPrompt = e;
-    this.isStandalone.set(false);
+    this.isStandalone.set(true);
   }
 
   async promptInstall() {

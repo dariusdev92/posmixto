@@ -1,8 +1,8 @@
 import { Component, inject, Injectable, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameSessionService } from '../../core/services/game-session';
-import { actionClickTrigger } from '../../layout/layout.service';
-import { PalitosComponent } from '../../core/components/palitos/palitos';
+import { GameSessionService } from '../../../../core/services/game-session.service';
+import { actionClickTrigger } from '../../../../layout/layout.service';
+import { PalitosComponent } from '../../../../core/components/palitos/palitos.component';
 
 const TRUCO_STORAGE_KEY = 'PWA_TRUCO_STATE';
 

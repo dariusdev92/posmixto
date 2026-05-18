@@ -2,8 +2,8 @@ import { Component, ElementRef, inject, OnInit, signal, ViewChild, effect } from
 import { CommonModule } from '@angular/common';
 import { DragDropModule, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
-import { TeamBuilderService } from './services/team-builder';
-import { actionClickTrigger } from '../../layout/layout.service';
+import { TeamBuilderService } from '../../../../core/services/team-builder.service';
+import { actionClickTrigger } from '../../../../layout/layout.service';
 
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
@@ -25,7 +25,7 @@ export interface PlayerToken {
   standalone: true,
   imports: [CommonModule, DragDropModule, FormsModule, ...HlmButtonImports, ...HlmIconImports, ...HlmInputImports, NgIconComponent],
   providers: [provideIcons({ lucidePlus, lucideUsers, lucideTrash, lucideShare2, lucideCheck })],
-  templateUrl: './team-builder.html',
+  templateUrl: './team-builder.component.html',
 })
 export class TeamBuilder implements OnInit {
   private teamService = inject(TeamBuilderService);

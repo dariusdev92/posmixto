@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { Home } from './features/home/home';
+import { Home } from './features/home/components/home/home.component';
 import { LAYOUT_ROUTES } from './layout/routes';
 
 export const routes: Routes = [
