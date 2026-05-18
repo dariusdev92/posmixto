@@ -1,7 +1,8 @@
-import { Component, HostListener, Input, inject, Injectable, effect } from '@angular/core';
+import { Component, inject, Injectable, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameSessionService } from '../../core/services/game-session';
 import { actionClickTrigger } from '../../layout/layout.service';
+import { PalitosComponent } from '../../core/components/palitos/palitos';
 
 const TRUCO_STORAGE_KEY = 'PWA_TRUCO_STATE';
 
@@ -45,39 +46,6 @@ export class TrucoService {
     this.scores = [0, 0];
     this.sessionService.clearGame(TRUCO_STORAGE_KEY);
   }
-}
-
-// Inline component for the sticks
-@Component({
-  selector: 'app-palitos',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
-    <div class="relative w-16 h-16 transition-all duration-100">
-      <!-- 
-        Palitos arrangement:
-        1: vertical left
-        2: vertical right
-        3: horizontal top
-        4: horizontal bottom
-        5: diagonal
-      -->
-      <!-- Stick 1 -->
-      <div class="absolute left-0 top-0 w-2 h-full rounded-full transition-colors duration-200" [ngClass]="count >= 1 ? 'bg-zinc-300' : 'bg-transparent'"></div>
-      <!-- Stick 2 -->
-      <div class="absolute left-0 top-0 w-full h-2 rounded-full transition-colors duration-200" [ngClass]="count >= 2 ? 'bg-zinc-300' : 'bg-transparent'"></div>
-      <!-- Stick 3 -->
-      <div class="absolute right-0 top-0 w-2 h-full rounded-full transition-colors duration-200" [ngClass]="count >= 3 ? 'bg-zinc-300' : 'bg-transparent'"></div>
-      <!-- Stick 4 -->
-      <div class="absolute left-0 bottom-0 w-full h-2 rounded-full transition-colors duration-200" [ngClass]="count >= 4 ? 'bg-zinc-300' : 'bg-transparent'"></div>
-      <!-- Stick 5 (Diagonal) -->
-      <div class="absolute left-1/2 top-1/2 w-[140%] h-2 rounded-full origin-center -translate-x-1/2 -translate-y-1/2 rotate-45 transition-colors duration-200" [ngClass]="count >= 5 ? 'bg-zinc-300' : 'bg-transparent'"></div>
-    </div>
-  `
-})
-export class PalitosComponent {
-  // Can be 1, 2, 3, 4, 5
-  @Input() count!: number;
 }
 
 @Component({

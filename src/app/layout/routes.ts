@@ -25,6 +25,17 @@ export const LAYOUT_ROUTES: Routes = [
     ]
   },
   {
+    path: 'mus',
+    component: LayoutComponent,
+    data: {
+      title: 'Mus',
+      action: 'reset'
+    } satisfies LayoutRouteData,
+    children: [
+      { path: '', loadComponent: () => import('../features/mus/mus').then(m => m.MusComponent) }
+    ]
+  },
+  {
     path: 'share-receiver',
     component: LayoutComponent,
     data: {

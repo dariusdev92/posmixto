@@ -1,17 +1,28 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute, provideRouter } from '@angular/router';
+import { of } from 'rxjs';
 
-import { ShareReceiver } from './share-receiver';
+import { ShareReceiverComponent } from './share-receiver';
 
-describe('ShareReceiver', () => {
-  let component: ShareReceiver;
-  let fixture: ComponentFixture<ShareReceiver>;
+describe('ShareReceiverComponent', () => {
+  let component: ShareReceiverComponent;
+  let fixture: ComponentFixture<ShareReceiverComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ShareReceiver],
+      imports: [ShareReceiverComponent],
+      providers: [
+        provideRouter([]),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({}),
+          },
+        },
+      ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ShareReceiver);
+    fixture = TestBed.createComponent(ShareReceiverComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
