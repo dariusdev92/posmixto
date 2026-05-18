@@ -4,10 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration development",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --base-href /posmixto/ && npx angular-cli-ghpages --dir=dist/posmixto/browser"
+    "deploy": "ng build --configuration production --base-href /posmixto/ && npx angular-cli-ghpages --dir=dist/posmixto/browser"
   },
   "private": true,
   "packageManager": "npm@10.8.2",
