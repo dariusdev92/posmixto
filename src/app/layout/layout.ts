@@ -5,6 +5,7 @@ import { LayoutService } from './layout.service';
 
 export interface LayoutRouteData {
   title: string;
+  actions?: HeaderAction[];
   action?: HeaderAction;
 }
 
@@ -16,8 +17,8 @@ export interface LayoutRouteData {
     <div class="flex flex-col h-[100dvh] bg-background text-foreground">
       <app-header 
         [title]="layoutService.config().title" 
-        [action]="layoutService.config().action"
-        (actionClick)="onActionClick()" />
+        [actions]="layoutService.config().actions"
+        (actionClick)="onActionClick($event)" />
       
       <main class="flex-1 min-h-0 overflow-hidden">
         <router-outlet />
@@ -33,18 +34,17 @@ export class LayoutComponent {
   constructor() {
     // Listen to route data changes
     this.route.data.subscribe(data => {
-      const routeData = data as { title?: string; action?: HeaderAction };
+      const routeData = data as { title?: string; action?: HeaderAction; actions?: HeaderAction[] };
       if (routeData.title) {
         this.layoutService.setConfig({
           title: routeData.title,
-          action: routeData.action || 'none'
+          actions: routeData.actions || (routeData.action ? [routeData.action] : [])
         });
       }
     });
   }
 
-  onActionClick() {
-    const action = this.layoutService.config().action;
+  onActionClick(action: HeaderAction) {
     if (action === 'reset') {
       // Navigate with query param to trigger reset
       this.router.navigate([], { 
@@ -53,6 +53,6 @@ export class LayoutComponent {
       });
     }
     // Also trigger the signal so features can handle custom actions (like share)
-    this.layoutService.triggerActionClick();
+    this.layoutService.triggerActionClick(action);
   }
 }

@@ -117,7 +117,7 @@ export class TrucoComponent {
     // Listen to layout action clicks for reset
     effect(() => {
       const current = actionClickTrigger();
-      if (current > 0) {
+      if (current.count > 0 && current.action === 'reset') {
         this.reset();
       }
     });

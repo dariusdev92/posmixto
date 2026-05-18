@@ -29,7 +29,7 @@ export const LAYOUT_ROUTES: Routes = [
     component: LayoutComponent,
     data: {
       title: 'Mus',
-      action: 'reset'
+      actions: ['undo', 'reset']
     } satisfies LayoutRouteData,
     children: [
       { path: '', loadComponent: () => import('../features/mus/mus').then(m => m.MusComponent) }
@@ -40,7 +40,6 @@ export const LAYOUT_ROUTES: Routes = [
     component: LayoutComponent,
     data: {
       title: 'Recibir Comparte',
-      action: 'none'
     } satisfies LayoutRouteData,
     children: [
       { path: '', loadComponent: () => import('../features/share-receiver/share-receiver').then(m => m.ShareReceiverComponent) }
@@ -58,3 +57,4 @@ export const LAYOUT_ROUTES: Routes = [
     ]
   }
 ];
+

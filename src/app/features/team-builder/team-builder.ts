@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, OnDestroy, signal, ViewChild, effect } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, signal, ViewChild, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
@@ -82,11 +82,11 @@ export class TeamBuilder implements OnInit {
     }
   }
 
-constructor() {
+  constructor() {
     // Track action clicks from layout header
     effect(() => {
       const current = actionClickTrigger();
-      if (current > 0) {
+      if (current.count > 0 && current.action === 'share') {
         this.exportTeams();
       }
     });

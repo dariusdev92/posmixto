@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener, Injectable, effect, inject, signal } from '@angular/core';
 import { GameSessionService } from '../../core/services/game-session';
 import { PalitosComponent } from '../../core/components/palitos/palitos';
-import { actionClickTrigger } from '../../layout/layout.service';
+import { actionClickTrigger, LayoutService } from '../../layout/layout.service';
 
 const MUS_STORAGE_KEY = 'PWA_MUS_STATE';
 const MUS_MAX_SCORE = 40;
@@ -29,6 +29,8 @@ interface PendingCategoryPointer {
   y: number;
 }
 
+type MusHistoryEntry = MusState;
+
 const DEFAULT_MUS_STATE: MusState = {
   scores: [0, 0],
   categoryValues: {
@@ -46,6 +48,7 @@ const DEFAULT_MUS_STATE: MusState = {
 export class MusService {
   private sessionService = inject(GameSessionService);
   state: MusState = this.loadSavedGame();
+  private history: MusHistoryEntry[] = [];
 
   private loadSavedGame(): MusState {
     const saved = this.sessionService.loadGame<MusState>(MUS_STORAGE_KEY);
@@ -76,11 +79,30 @@ export class MusService {
     this.sessionService.saveGame(MUS_STORAGE_KEY, this.state);
   }
 
+  private saveHistory() {
+    this.history.push(this.cloneState(this.state));
+  }
+
+  canUndo(): boolean {
+    return this.history.length > 0;
+  }
+
+  undo() {
+    const previousState = this.history.pop();
+    if (!previousState) {
+      return;
+    }
+
+    this.state = this.cloneState(previousState);
+    this.persist();
+  }
+
   addPoint(team: Team, amount = 1) {
     if (amount <= 0 || this.state.scores[team] >= MUS_MAX_SCORE) {
       return;
     }
 
+    this.saveHistory();
     this.state = {
       ...this.state,
       scores: this.state.scores.map((score, index) => index === team ? Math.min(MUS_MAX_SCORE, score + amount) : score) as [number, number]
@@ -93,6 +115,7 @@ export class MusService {
       return;
     }
 
+    this.saveHistory();
     this.state = {
       ...this.state,
       scores: this.state.scores.map((score, index) => index === team ? Math.max(0, score - amount) : score) as [number, number]
@@ -105,6 +128,7 @@ export class MusService {
       return;
     }
 
+    this.saveHistory();
     this.state = {
       ...this.state,
       categoryValues: {
@@ -120,6 +144,7 @@ export class MusService {
       return;
     }
 
+    this.saveHistory();
     this.state = {
       ...this.state,
       categoryValues: {
@@ -136,6 +161,7 @@ export class MusService {
       return;
     }
 
+    this.saveHistory();
     this.state = {
       scores: this.state.scores.map((score, index) => index === team ? Math.min(MUS_MAX_SCORE, score + amount) : score) as [number, number],
       categoryValues: {
@@ -147,6 +173,7 @@ export class MusService {
   }
 
   reset() {
+    this.saveHistory();
     this.state = this.cloneState(DEFAULT_MUS_STATE);
     this.sessionService.clearGame(MUS_STORAGE_KEY);
   }
@@ -242,6 +269,7 @@ export class MusService {
 })
 export class MusComponent {
   private musService = inject(MusService);
+  private layoutService = inject(LayoutService);
 
   readonly categories: MusCategoryDefinition[] = [
     { key: 'grande', shortLabel: 'G' },
@@ -260,10 +288,21 @@ export class MusComponent {
   private pendingCategoryPointer: PendingCategoryPointer | null = null;
 
   constructor() {
+    this.syncHeaderActions();
+
     effect(() => {
       const current = actionClickTrigger();
-      if (current > 0) {
-        this.reset();
+      if (current.count <= 0) {
+        return;
+      }
+
+      if (current.action === 'undo') {
+        this.undo();
+        return;
+      }
+
+      if (current.action === 'reset') {
+        this.confirmReset();
       }
     });
   }
@@ -294,6 +333,7 @@ export class MusComponent {
     }
 
     this.musService.addCategoryPoint(category);
+    this.syncHeaderActions();
   }
 
   handleTeamTap(team: Team) {
@@ -302,6 +342,7 @@ export class MusComponent {
     }
 
     this.musService.addPoint(team);
+    this.syncHeaderActions();
   }
 
   startCategoryInteraction(event: PointerEvent, category: MusCategoryKey) {
@@ -318,11 +359,15 @@ export class MusComponent {
       this.musService.removeCategoryPoint(category);
       this.pendingCategoryPointer = null;
       this.clearCategoryDragState();
+      this.syncHeaderActions();
     });
   }
 
   startTeamLongPress(team: Team) {
-    this.beginLongPress(() => this.musService.removePoint(team));
+    this.beginLongPress(() => {
+      this.musService.removePoint(team);
+      this.syncHeaderActions();
+    });
   }
 
   cancelLongPress() {
@@ -339,6 +384,17 @@ export class MusComponent {
     this.dragHandled = false;
     this.clearCategoryDragState();
     this.musService.reset();
+    this.syncHeaderActions();
+  }
+
+  undo() {
+    this.cancelLongPress();
+    this.pendingCategoryPointer = null;
+    this.longPressHandled = false;
+    this.dragHandled = false;
+    this.clearCategoryDragState();
+    this.musService.undo();
+    this.syncHeaderActions();
   }
 
   getFirstHalfScore(score: number): number {
@@ -387,6 +443,7 @@ export class MusComponent {
       const team = this.findTeamAtPoint(event.clientX, event.clientY);
       if (team !== null) {
         this.musService.awardCategory(this.activeDraggedCategory, team);
+        this.syncHeaderActions();
       }
 
       this.dragHandled = true;
@@ -450,5 +507,20 @@ export class MusComponent {
     if (target?.hasPointerCapture?.(event.pointerId)) {
       target.releasePointerCapture(event.pointerId);
     }
+  }
+
+  private confirmReset() {
+    if (!window.confirm('¿Seguro que querés reiniciar la partida?')) {
+      return;
+    }
+
+    this.reset();
+  }
+
+  private syncHeaderActions() {
+    this.layoutService.setConfig({
+      title: 'Mus',
+      actions: this.musService.canUndo() ? ['undo', 'reset'] : ['reset']
+    });
   }
 }

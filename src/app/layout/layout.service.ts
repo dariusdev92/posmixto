@@ -1,17 +1,22 @@
-import { Injectable, signal, computed, WritableSignal } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { type HeaderAction } from './header';
 
 export interface LayoutConfig {
   title: string;
+  actions: HeaderAction[];
+}
+
+export interface HeaderActionTrigger {
   action: HeaderAction;
+  count: number;
 }
 
 // Global signal to track action clicks - features subscribe to this
-export const actionClickTrigger: WritableSignal<number> = signal(0);
+export const actionClickTrigger: WritableSignal<HeaderActionTrigger> = signal({ action: 'reset', count: 0 });
 
 @Injectable({ providedIn: 'root' })
 export class LayoutService {
-  private _config = signal<LayoutConfig>({ title: '', action: 'none' });
+  private _config = signal<LayoutConfig>({ title: '', actions: [] });
   
   readonly config = this._config.asReadonly();
 
@@ -20,11 +25,11 @@ export class LayoutService {
   }
   
   clearConfig() {
-    this._config.set({ title: '', action: 'none' });
+    this._config.set({ title: '', actions: [] });
   }
 
   // Call this from layout header when action button is clicked
-  triggerActionClick() {
-    actionClickTrigger.update(v => v + 1);
+  triggerActionClick(action: HeaderAction) {
+    actionClickTrigger.update(v => ({ action, count: v.count + 1 }));
   }
 }
