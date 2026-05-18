@@ -11,6 +11,17 @@ import { MusCategoryDefinition, MusCategoryKey, PendingCategoryPointer, Team } f
   standalone: true,
   imports: [CommonModule, PalitosComponent],
   template: `
+    @if (dragPreview()) {
+      <div 
+        class="fixed pointer-events-none bg-white text-black z-50 select-none px-4 rounded-lg shadow-xl text-lg font-bold transition-transform"
+        [style.left.px]="dragPreview()!.x"
+        [style.top.px]="dragPreview()!.y"
+        [style.transform]="'translate(-50%, calc(-100% - .5rem))'"
+      >
+        <div>{{ getCategoryLabel(dragPreview()!.category) }} ({{ categoryValue(dragPreview()!.category) }})</div>
+      </div>
+    }
+
     <div class="flex h-full touch-none bg-black text-white" (contextmenu)="$event.preventDefault()">
       <main class="grid min-h-0 flex-1 grid-cols-[minmax(0,1.7fr)_minmax(11rem,1fr)] border border-white touch-none">
         <section class="grid min-h-0 grid-cols-[1fr_2px_1fr]">
@@ -107,6 +118,7 @@ export class MusComponent {
   ];
 
   readonly hoveredDropTeam = signal<Team | null>(null);
+  readonly dragPreview = signal<{ category: MusCategoryKey; x: number; y: number } | null>(null);
 
   private longPressTimer: ReturnType<typeof setTimeout> | null = null;
   private longPressHandled = false;
@@ -232,6 +244,17 @@ export class MusComponent {
     return Math.max(0, score - 20);
   }
 
+  getCategoryLabel(category: MusCategoryKey): string {
+    const labels: Record<MusCategoryKey, string> = {
+      grande: 'GRANDE',
+      chica: 'CHICA',
+      pares: 'PARES',
+      juego: 'JUEGO',
+      puntos: 'PUNTOS'
+    };
+    return labels[category];
+  }
+
   getSticks(points: number): number[] {
     const p1 = Math.min(5, Math.max(0, points));
     const p2 = Math.min(5, Math.max(0, points - 5));
@@ -244,6 +267,11 @@ export class MusComponent {
   onWindowPointerMove(event: PointerEvent) {
     if (this.activeDraggedCategory) {
       this.hoveredDropTeam.set(this.findTeamAtPoint(event.clientX, event.clientY));
+      this.dragPreview.set({
+        category: this.activeDraggedCategory,
+        x: event.clientX,
+        y: event.clientY
+      });
       return;
     }
 
@@ -262,6 +290,11 @@ export class MusComponent {
     this.cancelLongPress();
     this.activeDraggedCategory = this.pendingCategoryPointer.category;
     this.hoveredDropTeam.set(this.findTeamAtPoint(event.clientX, event.clientY));
+    this.dragPreview.set({
+      category: this.pendingCategoryPointer.category,
+      x: event.clientX,
+      y: event.clientY
+    });
   }
 
   @HostListener('window:pointerup', ['$event'])
@@ -316,6 +349,7 @@ export class MusComponent {
   private clearCategoryDragState() {
     this.activeDraggedCategory = null;
     this.hoveredDropTeam.set(null);
+    this.dragPreview.set(null);
   }
 
   private findTeamAtPoint(x: number, y: number): Team | null {
