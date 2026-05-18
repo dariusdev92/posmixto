@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { PlayerInputComponent } from '../player-input/player-input.component';
@@ -6,6 +6,7 @@ import { ScoreGridComponent } from '../score-grid/score-grid.component';
 import { GeneralaStateService } from '../../services/generala-state.service';
 import { Player } from '../../models/player.types';
 import { HlmButton } from '@spartan-ng/helm/button';
+import { actionClickTrigger, LayoutService } from '../../../../layout/layout.service';
 
 @Component({
     selector: 'app-generala',
@@ -14,8 +15,20 @@ import { HlmButton } from '@spartan-ng/helm/button';
 })
 export class GeneralaComponent implements OnInit {
     stateService = inject(GeneralaStateService);
+    private layoutService = inject(LayoutService);
     isGameActive = this.stateService.isGameActive;
     private route = inject(ActivatedRoute);
+
+    constructor() {
+        // Listen to layout header action clicks for reset
+        effect(() => {
+            const action = actionClickTrigger();
+            if (action === 'reset') {
+                this.resetGame();
+                this.layoutService.resetActionTrigger();
+            }
+        });
+    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

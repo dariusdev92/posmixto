@@ -70,7 +70,7 @@ export class GeneralaStateService {
 
     resetGame() {
         this.state.set(null);
-        // this.playersRef.set([]);
+        // Keep players to remember them for the next game
         this.persist();
     }
 
