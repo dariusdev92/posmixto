@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
+import { LayoutService } from '../../../../layout/layout.service';
 
 // Spartan NG & ng-icons imports
 import { HlmCardImports } from '@spartan-ng/helm/card';
@@ -18,10 +19,14 @@ import { lucideDices, lucideUsers, lucideDownload, lucideHardDriveDownload } fro
 })
 export class Home implements OnInit {
   private router = inject(Router);
+  private layoutService = inject(LayoutService);
   isStandalone = signal<boolean>(true); // Let's default to true and then correct it, to prevent flicker
   deferredPrompt: any = null;
 
   ngOnInit() {
+    // Reset action trigger when returning to home
+    this.layoutService.resetActionTrigger();
+
     // Detect standalone mode
     if (environment.detectInstalledApp) {
       const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;

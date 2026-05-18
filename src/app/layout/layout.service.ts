@@ -1,18 +1,16 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { type HeaderAction } from './header';
 
+// Re-export for convenience
+export { type HeaderAction } from './header';
+
 export interface LayoutConfig {
   title: string;
   actions: HeaderAction[];
 }
 
-export interface HeaderActionTrigger {
-  action: HeaderAction;
-  count: number;
-}
-
 // Global signal to track action clicks - features subscribe to this
-export const actionClickTrigger: WritableSignal<HeaderActionTrigger> = signal({ action: 'reset', count: 0 });
+export const actionClickTrigger = signal<HeaderAction | null>(null);
 
 @Injectable({ providedIn: 'root' })
 export class LayoutService {
@@ -30,6 +28,11 @@ export class LayoutService {
 
   // Call this from layout header when action button is clicked
   triggerActionClick(action: HeaderAction) {
-    actionClickTrigger.update(v => ({ action, count: v.count + 1 }));
+    actionClickTrigger.set(action);
+  }
+
+  // Reset the trigger - call this when returning to home
+  resetActionTrigger() {
+    actionClickTrigger.set(null);
   }
 }

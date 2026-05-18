@@ -130,18 +130,20 @@ export class MusComponent {
     this.syncHeaderActions();
 
     effect(() => {
-      const current = actionClickTrigger();
-      if (current.count <= 0) {
+      const action = actionClickTrigger();
+      if (!action) {
         return;
       }
 
-      if (current.action === 'undo') {
+      if (action === 'undo') {
         this.undo();
         return;
       }
 
-      if (current.action === 'reset') {
+      if (action === 'reset') {
         this.confirmReset();
+        // Reset trigger after handling
+        this.layoutService.resetActionTrigger();
       }
     });
   }

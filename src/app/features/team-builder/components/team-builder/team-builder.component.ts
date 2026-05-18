@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DragDropModule, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
 import { TeamBuilderService } from '../../../../core/services/team-builder.service';
-import { actionClickTrigger } from '../../../../layout/layout.service';
+import { actionClickTrigger, LayoutService } from '../../../../layout/layout.service';
 
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
@@ -29,6 +29,7 @@ export interface PlayerToken {
 })
 export class TeamBuilder implements OnInit {
   private teamService = inject(TeamBuilderService);
+  private layoutService = inject(LayoutService);
 
   @ViewChild('pitch', { static: true }) pitchRef!: ElementRef<HTMLDivElement>;
 
@@ -82,12 +83,13 @@ export class TeamBuilder implements OnInit {
     }
   }
 
-  constructor() {
+constructor() {
     // Track action clicks from layout header
     effect(() => {
-      const current = actionClickTrigger();
-      if (current.count > 0 && current.action === 'share') {
+      const action = actionClickTrigger();
+      if (action === 'share') {
         this.exportTeams();
+        this.layoutService.resetActionTrigger();
       }
     });
   }
