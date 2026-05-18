@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { Home } from './features/home/home';
+import { Home } from './features/home/components/home/home.component';
+import { LAYOUT_ROUTES } from './layout/routes';
 
 export const routes: Routes = [
     {
@@ -7,18 +8,7 @@ export const routes: Routes = [
         component: Home,
         pathMatch: 'full'
     },
-    {
-        path: 'generala',
-        loadChildren: () => import('./features/generala/generala.routes').then(m => m.routes)
-    },
-    {
-        path: 'share-receiver',
-        loadComponent: () => import('./features/share-receiver/share-receiver').then(m => m.ShareReceiverComponent)
-    },
-    {
-        path: 'team-builder',
-        loadComponent: () => import('./features/team-builder/team-builder').then(m => m.TeamBuilder)
-    },
+    ...LAYOUT_ROUTES,
     {
         path: '**',
         redirectTo: ''

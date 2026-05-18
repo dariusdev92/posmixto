@@ -1,0 +1,66 @@
+<header class="bg-card border-b border-border shadow-sm p-4 flex items-center z-10 shrink-0">
+    <h1>Toolkit</h1>
+</header>
+@if (isStandalone()){
+<div class="grid grid-cols-2 gap-4 p-4">
+    <section hlmCard>
+        <div hlmCardHeader class="flex flex-col items-center gap-4">
+            <ng-icon hlm name="lucideDices" size="xl" class="text-primary"></ng-icon>
+            <h3 hlmCardTitle>Generala</h3>
+        </div>
+        <div hlmCardFooter class="flex justify-center">
+            <button hlmBtn variant="outline" class="w-full" routerLink="/generala">
+                Jugar
+            </button>
+        </div>
+    </section>
+    <section hlmCard>
+        <div hlmCardHeader class="flex flex-col items-center gap-4">
+            <ng-icon hlm name="lucideUsers" size="xl" class="text-primary"></ng-icon>
+            <h3 hlmCardTitle>Equipos</h3>
+        </div>
+        <div hlmCardFooter class="justify-center">
+            <button hlmBtn variant="outline" class="w-full" (click)="openTeamBuilderDialog()">
+                Armar
+            </button>
+        </div>
+    </section>
+    <section hlmCard>
+        <div hlmCardHeader class="flex flex-col items-center gap-4">
+            <img src="images/truco.png" alt="Truco" class="w-16 h-16 object-contain">
+            <h3 hlmCardTitle>Truco</h3>
+        </div>
+        <div hlmCardFooter class="flex justify-center">
+            <button hlmBtn variant="outline" class="w-full" routerLink="/truco">
+                Anotar
+            </button>
+        </div>
+    </section>
+    <section hlmCard>
+        <div hlmCardHeader class="flex flex-col items-center gap-4">
+            <div class="flex h-16 w-16 items-center justify-center rounded-full border text-xl font-bold tracking-[0.3em]">MUS</div>
+            <h3 hlmCardTitle>Mus</h3>
+        </div>
+        <div hlmCardFooter class="flex justify-center">
+            <button hlmBtn variant="outline" class="w-full" routerLink="/mus">
+                Anotar
+            </button>
+        </div>
+    </section>
+</div>
+} @else {
+<div class="install-prompt-container flex flex-col items-center justify-center h-full text-center gap-4 p-8">
+    <ng-icon hlm name="lucideDownload" size="xl" class="text-primary mb-2"></ng-icon>
+    <h2 class="text-2xl font-bold">¡Instala ToolKit!</h2>
+    <p class="text-muted-foreground text-sm max-w-[300px]">
+        Para disfrutar de la mejor experiencia, pantalla completa y acceso rápido, instala ToolKit en tu celular o PC.
+    </p>
+    <button hlmBtn variant="default" class="mt-4 flex items-center gap-2" (click)="promptInstall()">
+        <ng-icon hlm name="lucideHardDriveDownload" size="sm"></ng-icon> INSTALAR APP
+    </button>
+    <p class="text-xs text-muted-foreground mt-4 ios-hint">
+        <br>
+        <small>¿Estás en iPhone/iPad? Toca el botón de Compartir en tu navegador y elige "Agregar a inicio".</small>
+    </p>
+</div>
+}

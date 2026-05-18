@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { GeneralaStateService } from '../../services/generala-state.service';
 import { ScoreCellComponent } from '../score-cell/score-cell.component';
 import { GeneralaScoringService } from '../../services/generala-scoring.service';
-import { CATEGORY_LABELS, ScoreCategory } from '../../models/generala.models';
+import { CATEGORY_LABELS } from '../../models/generala.domain';
+import { ScoreCategory } from '../../models/generala.types';
 
 @Component({
     selector: 'app-score-grid',

@@ -1,0 +1,40 @@
+<div class="flex flex-col h-full">
+    <main class="pitch-container flex-1 min-h-0" #pitch>
+        <!-- Center Circle -->
+        <div class="pitch-center-circle"></div>
+        <!-- <div class="team-header team-a">Equipo A</div>
+        <div class="team-header team-b">Equipo B</div> -->
+
+        <!-- Single boundary for all players -->
+        <div class="pitch-boundary" style="position: absolute; top:0; left:0; right:0; bottom:0;">
+            @for (player of players(); track player.id) {
+            <div class="player-token" [class.team-a-token]="player.team === 'A'"
+                [class.team-b-token]="player.team === 'B'" [class.deleting]="deletingIds.has(player.id)" cdkDrag
+                cdkDragBoundary=".pitch-container" [cdkDragFreeDragPosition]="{x: player.initialX, y: player.initialY}"
+                (cdkDragEnded)="onDragEnded($event, player)" (cdkDragStarted)="onLongPressEnd(player.id)"
+                (pointerdown)="onLongPressStart($event, player.id)" (pointerup)="onLongPressEnd(player.id)"
+                (pointercancel)="onLongPressEnd(player.id)" (pointerleave)="onLongPressEnd(player.id)"
+                style="position: absolute; z-index: 10; touch-action: none;">
+                <div class="token-circle">{{ player.name.charAt(0).toUpperCase() }}</div>
+                <div class="token-name">{{ player.name }}</div>
+            </div>
+            }
+
+            <!-- @if (players().length === 0) {
+            <div class="pitch-empty-hint">
+                <ng-icon hlm name="lucideUsers" size="xl" style="width: 48px; height: 48px; opacity: 0.4;"></ng-icon>
+                <p style="opacity: 0.5; margin-top: 0.5rem;">Agrégá jugadores abajo</p>
+            </div>
+            } -->
+        </div>
+    </main>
+
+    <!-- Add player bar (fixed at bottom) -->
+    <div class="flex items-center gap-3 p-3 bg-card border-t border-border shrink-0">
+        <input hlmInput class="flex-1" [ngModel]="newPlayerName()" (ngModelChange)="newPlayerName.set($event)"
+            (keydown)="onAddKeydown($event)" placeholder="Ej: Luchito" autocomplete="off" maxlength="30">
+        <button hlmBtn size="icon" variant="default" (click)="addPlayer()" class="shrink-0 w-11 h-11 rounded-full">
+            <ng-icon hlm name="lucidePlus"></ng-icon>
+        </button>
+    </div>
+</div>

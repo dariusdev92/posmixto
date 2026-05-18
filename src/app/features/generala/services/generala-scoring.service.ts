@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PlayType, ScoreCategory, ScoreEntry, PlayerScores } from '../models/generala.models';
+import { PlayType, ScoreCategory, ScoreEntry, PlayerScores } from '../models/generala.types';
 
 @Injectable({
     providedIn: 'root'
@@ -72,32 +72,32 @@ export class GeneralaScoringService {
             case '6': return this.generateOptionsMultipleOf(6);
             case 'ESCALERA':
                 return [
-                    { points: 25, type: 'SERVIDO', label: '25 (Servido)' },
-                    { points: 20, type: 'ARMADO', label: '20 (Armado)' },
-                    { points: 0, type: 'TACHA', label: 'Tacha (0)' }
+                    { points: 20, type: 'ARMADO', label: '20' },
+                    { points: 25, type: 'SERVIDO', label: '25' },
+                    { points: 0, type: 'TACHA', label: 'Tachar' }
                 ];
             case 'FULL':
                 return [
-                    { points: 35, type: 'SERVIDO', label: '35 (Servido)' },
-                    { points: 30, type: 'ARMADO', label: '30 (Armado)' },
-                    { points: 0, type: 'TACHA', label: 'Tacha (0)' }
+                    { points: 30, type: 'ARMADO', label: '30' },
+                    { points: 35, type: 'SERVIDO', label: '35' },
+                    { points: 0, type: 'TACHA', label: 'Tachar' }
                 ];
             case 'POKER':
                 return [
-                    { points: 45, type: 'SERVIDO', label: '45 (Servido)' },
-                    { points: 40, type: 'ARMADO', label: '40 (Armado)' },
-                    { points: 0, type: 'TACHA', label: 'Tacha (0)' }
+                    { points: 40, type: 'ARMADO', label: '40' },
+                    { points: 45, type: 'SERVIDO', label: '45' },
+                    { points: 0, type: 'TACHA', label: 'Tachar' }
                 ];
             case 'GENERALA':
                 return [
-                    { points: 50, type: 'SERVIDO', label: '50' }, // Usually Generala servida finishes the game, but we keep it simple
+                    // { points: 50, type: 'SERVIDO', label: '50' }, // Usually Generala servida finishes the game, but we keep it simple
                     { points: 50, type: 'ARMADO', label: '50' },
-                    { points: 0, type: 'TACHA', label: 'Tacha (0)' }
+                    { points: 0, type: 'TACHA', label: 'Tachar' }
                 ];
             case 'GENERALA_DOBLE':
                 return [
                     { points: 100, type: 'ARMADO', label: '100' },
-                    { points: 0, type: 'TACHA', label: 'Tacha (0)' }
+                    { points: 0, type: 'TACHA', label: 'Tachar' }
                 ];
         }
     }
@@ -107,7 +107,7 @@ export class GeneralaScoringService {
         for (let i = 1; i <= 5; i++) {
             options.push({ points: num * i, type: 'NORMAL', label: `${num * i}` });
         }
-        options.push({ points: 0, type: 'TACHA', label: 'Tacha (0)' });
-        return options.reverse(); // Highest first usually better UX
+        options.push({ points: 0, type: 'TACHA', label: 'Tachar' });
+        return options; // Highest first usually better UX
     }
 }

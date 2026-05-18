@@ -1,9 +1,9 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { GeneralaGameState, PlayerScores, ScoreCategory, ScoreEntry } from '../models/generala.models';
+import { GeneralaGameState, PlayerScores, ScoreCategory, ScoreEntry } from '../models/generala.types';
 import { nanoid } from 'nanoid';
 import { GeneralaScoringService } from './generala-scoring.service';
-import { GameSessionService } from '../../../common/services/game-session.service';
-import { Player } from '../../../common/models/player.model';
+import { GameSessionService } from '../../../core/services/game-session.service';
+import { Player } from '../models/player.types';
 
 const STORAGE_KEY = 'PWA_GENERALA_STATE';
 
@@ -70,7 +70,7 @@ export class GeneralaStateService {
 
     resetGame() {
         this.state.set(null);
-        this.playersRef.set([]);
+        // Keep players to remember them for the next game
         this.persist();
     }
 
