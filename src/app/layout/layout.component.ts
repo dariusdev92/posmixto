@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
-import { HeaderComponent, type HeaderAction } from './header';
+import { HeaderComponent, type HeaderAction } from './header.component';
 import { LayoutService } from './layout.service';
 
 export interface LayoutRouteData {

@@ -1,8 +1,8 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { type HeaderAction } from './header';
+import { type HeaderAction } from './header.component';
 
 // Re-export for convenience
-export { type HeaderAction } from './header';
+export { type HeaderAction } from './header.component';
 
 export interface LayoutConfig {
   title: string;
