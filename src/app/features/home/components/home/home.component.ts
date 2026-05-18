@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { environment } from '../../../../../environments/environment';
 
 // Spartan NG & ng-icons imports
 import { HlmCardImports } from '@spartan-ng/helm/card';
@@ -22,15 +23,17 @@ export class Home implements OnInit {
 
   ngOnInit() {
     // Detect standalone mode
-    const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;
-    this.isStandalone.set(true);
+    if (environment.detectInstalledApp) {
+      const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;
+      this.isStandalone.set(isStandaloneMode);
+    }
   }
 
   @HostListener('window:beforeinstallprompt', ['$event'])
   onBeforeInstallPrompt(e: Event) {
     e.preventDefault();
     this.deferredPrompt = e;
-    this.isStandalone.set(true);
+    this.isStandalone.set(false);
   }
 
   async promptInstall() {
