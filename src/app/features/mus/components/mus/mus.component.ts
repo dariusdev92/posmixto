@@ -137,12 +137,12 @@ export class MusComponent {
 
       if (action === 'undo') {
         this.undo();
+        this.layoutService.resetActionTrigger();
         return;
       }
 
       if (action === 'reset') {
         this.confirmReset();
-        // Reset trigger after handling
         this.layoutService.resetActionTrigger();
       }
     });
