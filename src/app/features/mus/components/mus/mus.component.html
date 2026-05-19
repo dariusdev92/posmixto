@@ -15,8 +15,8 @@
       <div
         data-team-zone
         data-team-id="0"
-        class="grid min-h-0 cursor-pointer grid-rows-[1fr_auto_1fr] p-4 transition-colors sm:p-6"
-        [class.bg-white]="hoveredDropTeam() === 0"
+        class="grid min-h-0 cursor-pointer grid-rows-[1fr_auto_1fr] p-4 transition-colors duration-400 sm:p-6"
+        [class.bg-stone-200]="hoveredDropTeam() === 0"
         [class.text-black]="hoveredDropTeam() === 0"
         [class.opacity-60]="winnerTeam() === 1"
         (click)="handleTeamTap(0)"
@@ -45,8 +45,8 @@
       <div
         data-team-zone
         data-team-id="1"
-        class="grid min-h-0 cursor-pointer grid-rows-[1fr_auto_1fr] p-4 transition-colors sm:p-6"
-        [class.bg-white]="hoveredDropTeam() === 1"
+        class="grid min-h-0 cursor-pointer grid-rows-[1fr_auto_1fr] p-4 transition-colors duration-400 sm:p-6"
+        [class.bg-stone-200]="hoveredDropTeam() === 1"
         [class.text-black]="hoveredDropTeam() === 1"
         [class.opacity-60]="winnerTeam() === 0"
         (click)="handleTeamTap(1)"
