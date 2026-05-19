@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 
-import { ShareReceiverComponent } from './share-receiver';
+import { ShareReceiverComponent } from './share-receiver.component';
 
 describe('ShareReceiverComponent', () => {
   let component: ShareReceiverComponent;

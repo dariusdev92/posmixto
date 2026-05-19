@@ -32,9 +32,17 @@
     <!-- Add player bar (fixed at bottom) -->
     <div class="flex items-center gap-3 p-3 bg-card border-t border-border shrink-0">
         <input hlmInput class="flex-1" [ngModel]="newPlayerName()" (ngModelChange)="newPlayerName.set($event)"
-            (keydown)="onAddKeydown($event)" placeholder="Ej: Luchito" autocomplete="off" maxlength="30">
+            (keydown)="onAddKeydown($event)" (paste)="onPaste($event)"
+            placeholder="Escribí un nombre o pegá una lista" autocomplete="off">
+        <button hlmBtn size="icon" variant="outline" (click)="pasteFromClipboard()"
+            class="shrink-0 w-11 h-11 rounded-full" aria-label="Pegar desde portapapeles">
+            <ng-icon hlm name="lucideClipboard"></ng-icon>
+        </button>
         <button hlmBtn size="icon" variant="default" (click)="addPlayer()" class="shrink-0 w-11 h-11 rounded-full">
             <ng-icon hlm name="lucidePlus"></ng-icon>
         </button>
     </div>
+    @if (inputFeedback()) {
+    <div class="px-3 pb-3 text-sm text-muted-foreground bg-card">{{ inputFeedback() }}</div>
+    }
 </div>

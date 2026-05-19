@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TeamBuilder } from './team-builder';
+import { TeamBuilder } from './team-builder.component';
 
 describe('TeamBuilder', () => {
   let component: TeamBuilder;

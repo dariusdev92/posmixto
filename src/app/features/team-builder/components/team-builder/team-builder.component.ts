@@ -4,12 +4,13 @@ import { DragDropModule, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
 import { TeamBuilderService } from '../../../../core/services/team-builder.service';
 import { actionClickTrigger, LayoutService } from '../../../../layout/layout.service';
+import { parsePlayerNames } from '../../../../core/utils/player-list-parser';
 
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { lucidePlus, lucideUsers, lucideTrash, lucideShare2, lucideCheck } from '@ng-icons/lucide';
+import { lucidePlus, lucideUsers, lucideTrash, lucideShare2, lucideCheck, lucideClipboard } from '@ng-icons/lucide';
 
 export interface PlayerToken {
   id: string;
@@ -24,7 +25,7 @@ export interface PlayerToken {
   selector: 'app-team-builder',
   standalone: true,
   imports: [CommonModule, DragDropModule, FormsModule, ...HlmButtonImports, ...HlmIconImports, ...HlmInputImports, NgIconComponent],
-  providers: [provideIcons({ lucidePlus, lucideUsers, lucideTrash, lucideShare2, lucideCheck })],
+  providers: [provideIcons({ lucidePlus, lucideUsers, lucideTrash, lucideShare2, lucideCheck, lucideClipboard })],
   templateUrl: './team-builder.component.html',
 })
 export class TeamBuilder implements OnInit {
@@ -36,6 +37,7 @@ export class TeamBuilder implements OnInit {
   players = signal<PlayerToken[]>([]);
   newPlayerName = signal<string>('');
   copied = signal<boolean>(false);
+  inputFeedback = signal<string | null>(null);
 
   exportTeams() {
     const allPlayers = this.players();
@@ -102,47 +104,36 @@ constructor() {
   }
 
   private setPlayersFromNames(names: string[]) {
-    const tokens: PlayerToken[] = names.map((name, index) => {
-      const isFirstHalf = index < Math.ceil(names.length / 2);
-      const col = index % 3;
-      const row = Math.floor(index / 3);
-      const x = 50 + (col * 120);
-      const yStrata = isFirstHalf ? 50 : 350;
-      const y = yStrata + (row * 80);
-      return {
-        id: `player-${Date.now()}-${index}`,
-        name,
-        initialX: x,
-        initialY: y,
-        currentY: y,
-        team: (isFirstHalf ? 'A' : 'B') as 'A' | 'B'
-      };
-    });
+    const tokens = this.buildDistributedTokens(names);
     this.players.set(tokens);
   }
 
   addPlayer() {
-    const name = this.newPlayerName().trim();
-    if (!name || name.length > 30) return;
+    this.processPlayerInput(this.newPlayerName());
+  }
 
-    const current = this.players();
-    const index = current.length;
-    const col = index % 3;
-    const row = Math.floor(index / 3);
-    const x = 50 + (col * 120);
-    const y = 350 + (row * 80);
+  async pasteFromClipboard() {
+    if (!navigator.clipboard?.readText) {
+      this.inputFeedback.set('Tu navegador no permite leer el portapapeles desde acá.');
+      return;
+    }
 
-    const newPlayer: PlayerToken = {
-      id: `player-${Date.now()}`,
-      name,
-      initialX: x,
-      initialY: y,
-      currentY: y,
-      team: 'B'
-    };
+    try {
+      const text = await navigator.clipboard.readText();
+      this.newPlayerName.set(text);
+      this.processPlayerInput(text);
+    } catch {
+      this.inputFeedback.set('No pudimos leer el portapapeles. Probá pegar manualmente en el input.');
+    }
+  }
 
-    this.players.set([...current, newPlayer]);
-    this.newPlayerName.set('');
+  onPaste(event: ClipboardEvent) {
+    const text = event.clipboardData?.getData('text')?.trim();
+    if (!text) return;
+
+    event.preventDefault();
+    this.newPlayerName.set(text);
+    this.processPlayerInput(text);
   }
 
   removePlayer(id: string) {
@@ -152,6 +143,91 @@ constructor() {
 
   onAddKeydown(event: KeyboardEvent) {
     if (event.key === 'Enter') this.addPlayer();
+  }
+
+  private processPlayerInput(rawText: string) {
+    const text = rawText.trim();
+
+    if (!text) {
+      this.inputFeedback.set(null);
+      return;
+    }
+
+    const parsedNames = parsePlayerNames(text);
+
+    if (parsedNames.length === 0) {
+      this.inputFeedback.set('No detectamos jugadores válidos en ese texto.');
+      return;
+    }
+
+    const addedCount = this.addPlayersByName(parsedNames);
+
+    if (addedCount === 0) {
+      this.inputFeedback.set('Esos jugadores ya estaban cargados.');
+      return;
+    }
+
+    this.newPlayerName.set('');
+    this.inputFeedback.set(addedCount === 1 ? 'Se agregó 1 jugador.' : `Se agregaron ${addedCount} jugadores.`);
+  }
+
+  private addPlayersByName(names: string[]): number {
+    const current = this.players();
+    const existingNames = new Set(current.map(player => player.name.trim().toLowerCase()));
+    const uniqueIncomingNames = names.filter(name => {
+      const normalizedName = name.trim().toLowerCase();
+      if (existingNames.has(normalizedName)) {
+        return false;
+      }
+
+      existingNames.add(normalizedName);
+      return true;
+    });
+
+    if (uniqueIncomingNames.length === 0) {
+      return 0;
+    }
+
+    const newPlayers = uniqueIncomingNames.length === 1
+      ? [this.buildManualPlayerToken(uniqueIncomingNames[0])]
+      : this.buildDistributedTokens(uniqueIncomingNames, current);
+
+    this.players.set([...current, ...newPlayers]);
+    return newPlayers.length;
+  }
+
+  private buildDistributedTokens(names: string[], existingPlayers: PlayerToken[] = []): PlayerToken[] {
+    const teamACount = existingPlayers.filter(player => player.team === 'A').length;
+    const teamBCount = existingPlayers.filter(player => player.team === 'B').length;
+    const teamAPlayers = names.slice(0, Math.ceil(names.length / 2));
+    const teamBPlayers = names.slice(Math.ceil(names.length / 2));
+
+    return [
+      ...teamAPlayers.map((name, index) => this.buildPlayerToken(name, 'A', teamACount + index)),
+      ...teamBPlayers.map((name, index) => this.buildPlayerToken(name, 'B', teamBCount + index)),
+    ];
+  }
+
+  private buildManualPlayerToken(name: string): PlayerToken {
+    const teamBCount = this.players().filter(player => player.team === 'B').length;
+    return this.buildPlayerToken(name, 'B', teamBCount);
+  }
+
+  private buildPlayerToken(name: string, team: 'A' | 'B', teamIndex: number): PlayerToken {
+    const col = teamIndex % 3;
+    const row = Math.floor(teamIndex / 3);
+    const x = 50 + (col * 120);
+    const yBase = team === 'A' ? 50 : 350;
+    const y = yBase + (row * 80);
+
+    return {
+      id: `player-${Date.now()}-${team}-${teamIndex}`,
+      name,
+      initialX: x,
+      initialY: y,
+      currentY: y,
+      team
+    };
   }
 
   // ── Long press to delete ─────────────────────────────────────────────
