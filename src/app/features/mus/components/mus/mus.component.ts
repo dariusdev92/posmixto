@@ -215,7 +215,9 @@ export class MusComponent {
         this.syncHeaderActions();
       }
 
-      this.dragHandled = true;
+      // Reset dragHandled so the next click works normally
+      // (it was set to false at startCategoryInteraction to block interaction during drag)
+      this.dragHandled = false;
       this.clearCategoryDragState();
     }
 
